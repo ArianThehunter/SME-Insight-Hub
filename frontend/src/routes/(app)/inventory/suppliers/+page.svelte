@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Truck } from '@lucide/svelte';</script><svelte:head><title>Suppliers — SME Insight Hub</title></svelte:head><PlaceholderPage title="Suppliers" description="Supplier performance tracking, delivery reliability, and relationship management." icon={Truck} />

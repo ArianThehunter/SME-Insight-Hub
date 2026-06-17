@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Package } from '@lucide/svelte';</script><svelte:head><title>Products — SME Insight Hub</title></svelte:head><PlaceholderPage title="Products" description="Full product catalog with pricing, stock levels, categories, and supplier information." icon={Package} />

@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Banknote } from '@lucide/svelte';</script><svelte:head><title>Cash Flow — SME Insight Hub</title></svelte:head><PlaceholderPage title="Cash Flow" description="Cash flow analysis with projections, trends, and liquidity tracking." icon={Banknote} />

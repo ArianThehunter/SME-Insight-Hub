@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { ShoppingCart } from '@lucide/svelte';</script><svelte:head><title>Orders — SME Insight Hub</title></svelte:head><PlaceholderPage title="Orders" description="Manage sales orders with real-time status tracking, filtering, and export capabilities." icon={ShoppingCart} />

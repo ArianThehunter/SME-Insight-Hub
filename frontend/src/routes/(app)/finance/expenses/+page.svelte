@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Receipt } from '@lucide/svelte';</script><svelte:head><title>Expenses — SME Insight Hub</title></svelte:head><PlaceholderPage title="Expenses" description="Track business expenses by category, department, and vendor with approval workflows." icon={Receipt} />

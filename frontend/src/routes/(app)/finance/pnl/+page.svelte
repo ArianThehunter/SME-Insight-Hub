@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { PieChart } from '@lucide/svelte';</script><svelte:head><title>Profit & Loss — SME Insight Hub</title></svelte:head><PlaceholderPage title="Profit & Loss" description="Comprehensive P&L statements with period comparisons and margin analysis." icon={PieChart} />

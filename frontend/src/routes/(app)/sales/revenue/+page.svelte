@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { TrendingUp } from '@lucide/svelte';</script><svelte:head><title>Revenue — SME Insight Hub</title></svelte:head><PlaceholderPage title="Revenue" description="Detailed revenue analytics with breakdowns by product, customer, region, and time period." icon={TrendingUp} />

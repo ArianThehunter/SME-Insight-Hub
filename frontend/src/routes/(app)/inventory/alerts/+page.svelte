@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { AlertTriangle } from '@lucide/svelte';</script><svelte:head><title>Stock Alerts — SME Insight Hub</title></svelte:head><PlaceholderPage title="Stock Alerts" description="Real-time alerts for low stock, overstock, and reorder recommendations." icon={AlertTriangle} />

@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Building2 } from '@lucide/svelte';</script><svelte:head><title>Warehouses — SME Insight Hub</title></svelte:head><PlaceholderPage title="Warehouses" description="Manage warehouse locations, capacity tracking, and stock distribution across facilities." icon={Building2} />

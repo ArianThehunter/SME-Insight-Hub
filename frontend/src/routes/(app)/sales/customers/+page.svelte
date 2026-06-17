@@ -1,0 +1,1 @@
+<script lang="ts">import PlaceholderPage from '$lib/components/feedback/PlaceholderPage.svelte';import { Users } from '@lucide/svelte';</script><svelte:head><title>Customers — SME Insight Hub</title></svelte:head><PlaceholderPage title="Customers" description="Customer management with lifetime value tracking, purchase history, and segmentation." icon={Users} />
