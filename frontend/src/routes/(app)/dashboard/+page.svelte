@@ -210,13 +210,14 @@
 	<!-- KPI Cards Grid -->
 	<section class="kpi-grid" aria-label="Key Performance Indicators">
 		{#each kpis as kpi, i}
+			{@const Icon = kpi.icon}
 			<article
 				class="kpi-card animate-fade-in-up"
 				style="animation-delay: {i * 60}ms"
 			>
 				<div class="kpi-header">
 					<div class="kpi-icon" style="background: {getColorVar(kpi.color)}15; color: {getColorVar(kpi.color)}">
-						<svelte:component this={kpi.icon} size={18} />
+						<Icon size={18} />
 					</div>
 					<button class="kpi-more" aria-label="More options">
 						<MoreHorizontal size={16} />
@@ -325,12 +326,13 @@
 			</div>
 			<div class="insights-list">
 				{#each insights as insight, i}
+					{@const Icon = insight.icon}
 					<div
 						class="insight-item"
 						style="animation-delay: {700 + i * 80}ms"
 					>
 						<div class="insight-icon" style="background: {getSeverityColor(insight.severity)}15; color: {getSeverityColor(insight.severity)}">
-							<svelte:component this={insight.icon} size={16} />
+							<Icon size={16} />
 						</div>
 						<div class="insight-content">
 							<div class="insight-header">
@@ -462,9 +464,10 @@
 		</div>
 		<div class="activity-list">
 			{#each activities as act, i}
+				{@const Icon = act.icon}
 				<div class="activity-item" style="animation-delay: {1200 + i * 60}ms">
 					<div class="activity-icon" style="color: {getActivityTypeColor(act.type)}">
-						<svelte:component this={act.icon} size={16} />
+						<Icon size={16} />
 					</div>
 					<div class="activity-content">
 						<span class="activity-title">{act.title}</span>
