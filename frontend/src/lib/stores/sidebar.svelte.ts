@@ -14,8 +14,12 @@ function createSidebarStore() {
 	}
 
 	return {
-		get collapsed() { return collapsed; },
-		get mobileOpen() { return mobileOpen; },
+		get collapsed() {
+			return collapsed;
+		},
+		get mobileOpen() {
+			return mobileOpen;
+		},
 
 		toggle() {
 			collapsed = !collapsed;
@@ -32,9 +36,15 @@ function createSidebarStore() {
 			if (browser) localStorage.setItem('sme-sidebar-collapsed', 'false');
 		},
 
-		toggleMobile() { mobileOpen = !mobileOpen; },
-		openMobile() { mobileOpen = true; },
-		closeMobile() { mobileOpen = false; },
+		toggleMobile() {
+			mobileOpen = !mobileOpen;
+		},
+		openMobile() {
+			mobileOpen = true;
+		},
+		closeMobile() {
+			mobileOpen = false;
+		}
 	};
 }
 

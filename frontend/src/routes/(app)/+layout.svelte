@@ -59,7 +59,6 @@
 	</div>
 {/if}
 
-
 <style>
 	.app-shell {
 		min-height: 100vh;
@@ -80,7 +79,7 @@
 		padding: 6px 20px;
 		font-size: 0.8125rem;
 		font-weight: 500;
-		box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 		transition: left var(--transition-slow);
 	}
 
@@ -107,7 +106,9 @@
 		align-items: center;
 	}
 
-	.demo-close:hover { opacity: 1; }
+	.demo-close:hover {
+		opacity: 1;
+	}
 
 	/* ── Main Content ─────────────────────────────────── */
 	.app-content {

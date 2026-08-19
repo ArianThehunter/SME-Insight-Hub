@@ -4,9 +4,7 @@
 
 import { browser } from '$app/environment';
 
-const API_BASE = browser
-	? (import.meta.env.PUBLIC_API_URL || '/api/v1')
-	: '/api/v1';
+const API_BASE = browser ? import.meta.env.PUBLIC_API_URL || '/api/v1' : '/api/v1';
 
 export interface ApiResponse<T = unknown> {
 	success: boolean;
@@ -45,7 +43,7 @@ async function refreshAccessToken(): Promise<string | null> {
 		const res = await fetch(`${API_BASE}/auth/refresh`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ refresh_token: refreshToken }),
+			body: JSON.stringify({ refresh_token: refreshToken })
 		});
 
 		if (!res.ok) return null;
@@ -70,14 +68,14 @@ async function refreshAccessToken(): Promise<string | null> {
  */
 export async function apiFetch<T = unknown>(
 	endpoint: string,
-	options: RequestInit = {},
+	options: RequestInit = {}
 ): Promise<T> {
 	const url = `${API_BASE}${endpoint}`;
 	const token = getAccessToken();
 
 	const headers: Record<string, string> = {
 		'Content-Type': 'application/json',
-		...(options.headers as Record<string, string> || {}),
+		...((options.headers as Record<string, string>) || {})
 	};
 
 	if (token) {
@@ -99,12 +97,14 @@ export async function apiFetch<T = unknown>(
 		let errorData: any = {};
 		try {
 			errorData = await res.json();
-		} catch { /* ignore parse error */ }
+		} catch {
+			/* ignore parse error */
+		}
 
 		throw new ApiError(
 			errorData.message || errorData.detail || `Request failed (${res.status})`,
 			res.status,
-			errorData.errors,
+			errorData.errors
 		);
 	}
 
@@ -121,21 +121,20 @@ export const api = {
 	post: <T>(endpoint: string, data?: unknown) =>
 		apiFetch<T>(endpoint, {
 			method: 'POST',
-			body: data ? JSON.stringify(data) : undefined,
+			body: data ? JSON.stringify(data) : undefined
 		}),
 
 	put: <T>(endpoint: string, data?: unknown) =>
 		apiFetch<T>(endpoint, {
 			method: 'PUT',
-			body: data ? JSON.stringify(data) : undefined,
+			body: data ? JSON.stringify(data) : undefined
 		}),
 
 	patch: <T>(endpoint: string, data?: unknown) =>
 		apiFetch<T>(endpoint, {
 			method: 'PATCH',
-			body: data ? JSON.stringify(data) : undefined,
+			body: data ? JSON.stringify(data) : undefined
 		}),
 
-	delete: <T>(endpoint: string) =>
-		apiFetch<T>(endpoint, { method: 'DELETE' }),
+	delete: <T>(endpoint: string) => apiFetch<T>(endpoint, { method: 'DELETE' })
 };

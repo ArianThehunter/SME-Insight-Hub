@@ -61,13 +61,16 @@
 	const features = [
 		{ icon: BarChart3, label: 'Real-time Analytics', desc: 'Track KPIs and business metrics' },
 		{ icon: Shield, label: 'Enterprise Security', desc: 'Role-based access control' },
-		{ icon: Globe, label: 'Bilingual Support', desc: 'English & Bangla interface' },
+		{ icon: Globe, label: 'Bilingual Support', desc: 'English & Bangla interface' }
 	];
 </script>
 
 <svelte:head>
 	<title>Sign In — SME Insight Hub</title>
-	<meta name="description" content="Sign in to SME Insight Hub to manage your business intelligence, analytics, and operations." />
+	<meta
+		name="description"
+		content="Sign in to SME Insight Hub to manage your business intelligence, analytics, and operations."
+	/>
 </svelte:head>
 
 <div class="login-container animate-fade-in">
@@ -81,7 +84,9 @@
 				<span class="logo-text">SME Insight Hub</span>
 			</div>
 			<h1 class="brand-headline">Intelligent Business<br />Management Platform</h1>
-			<p class="brand-sub">AI-powered analytics, document processing, and business intelligence for modern SMEs.</p>
+			<p class="brand-sub">
+				AI-powered analytics, document processing, and business intelligence for modern SMEs.
+			</p>
 
 			<div class="feature-list">
 				{#each features as feat, i}
@@ -157,7 +162,7 @@
 						<button
 							type="button"
 							class="toggle-password"
-							onclick={() => showPassword = !showPassword}
+							onclick={() => (showPassword = !showPassword)}
 							aria-label={showPassword ? 'Hide password' : 'Show password'}
 						>
 							{#if showPassword}
@@ -169,11 +174,7 @@
 					</div>
 				</div>
 
-				<button
-					type="submit"
-					class="btn-primary"
-					disabled={isSubmitting}
-				>
+				<button type="submit" class="btn-primary" disabled={isSubmitting}>
 					{#if isSubmitting}
 						<span class="spinner"></span>
 						Signing in...
@@ -430,7 +431,9 @@
 		color: var(--color-text-primary);
 		font-size: 0.875rem;
 		font-family: inherit;
-		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+		transition:
+			border-color var(--transition-fast),
+			box-shadow var(--transition-fast);
 		outline: none;
 	}
 
@@ -476,7 +479,10 @@
 		font-weight: 600;
 		font-family: inherit;
 		cursor: pointer;
-		transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+		transition:
+			opacity var(--transition-fast),
+			transform var(--transition-fast),
+			box-shadow var(--transition-fast);
 		box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 	}
 

@@ -4,7 +4,11 @@
 <script lang="ts">
 	import { Construction, ArrowLeft } from '@lucide/svelte';
 
-	let { title = 'Page', description = 'This feature is coming soon.', icon }: {
+	let {
+		title = 'Page',
+		description = 'This feature is coming soon.',
+		icon
+	}: {
 		title?: string;
 		description?: string;
 		icon?: any;

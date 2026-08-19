@@ -5,13 +5,15 @@
 	import { Palette, Upload, Image, Save, CheckCircle2 } from '@lucide/svelte';
 
 	let accentColor = $state('#0ea5e9');
-	let invoiceFooter = $state('Thank you for doing business with Acme Corporation Ltd. | VAT Registration No: 002481920-0101');
+	let invoiceFooter = $state(
+		'Thank you for doing business with Acme Corporation Ltd. | VAT Registration No: 002481920-0101'
+	);
 	let saved = $state(false);
 
 	function saveBranding(e: Event) {
 		e.preventDefault();
 		saved = true;
-		setTimeout(() => saved = false, 3000);
+		setTimeout(() => (saved = false), 3000);
 	}
 </script>
 
@@ -21,7 +23,9 @@
 	<header class="page-header">
 		<div>
 			<h1 class="page-title">Corporate Branding & Invoice Styling</h1>
-			<p class="page-subtitle">Customize organizational logos, PDF document headers, and invoice branding</p>
+			<p class="page-subtitle">
+				Customize organizational logos, PDF document headers, and invoice branding
+			</p>
 		</div>
 	</header>
 
@@ -63,25 +67,131 @@
 </div>
 
 <style>
-	.page-title { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); margin: 0; letter-spacing: -0.02em; }
-	.page-subtitle { font-size: 0.8125rem; color: var(--color-text-secondary); margin: 4px 0 0; }
-	.btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--radius-md); font-size: 0.8125rem; font-weight: 600; cursor: pointer; background: var(--color-accent); color: white; border: none; }
-	.btn-secondary { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.8125rem; font-weight: 600; cursor: pointer; background: var(--color-bg-primary); color: var(--color-text-primary); border: 1px solid var(--color-border); }
+	.page-title {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin: 0;
+		letter-spacing: -0.02em;
+	}
+	.page-subtitle {
+		font-size: 0.8125rem;
+		color: var(--color-text-secondary);
+		margin: 4px 0 0;
+	}
+	.btn-primary {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 8px 18px;
+		border-radius: var(--radius-md);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		background: var(--color-accent);
+		color: white;
+		border: none;
+	}
+	.btn-secondary {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 7px 14px;
+		border-radius: var(--radius-md);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		background: var(--color-bg-primary);
+		color: var(--color-text-primary);
+		border: 1px solid var(--color-border);
+	}
 
-	.settings-form { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; max-width: 720px; }
-	.card { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
-	.form-card { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-	.card-title { font-size: 0.9375rem; font-weight: 700; color: var(--color-text-primary); margin: 0; }
+	.settings-form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-top: 20px;
+		max-width: 720px;
+	}
+	.card {
+		background: var(--color-bg-secondary);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+	}
+	.form-card {
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+	.card-title {
+		font-size: 0.9375rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin: 0;
+	}
 
-	.logo-upload-wrap { display: flex; align-items: center; gap: 16px; }
-	.logo-preview { width: 64px; height: 64px; border-radius: var(--radius-md); background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; }
-	.upload-btn-wrap { display: flex; flex-direction: column; gap: 4px; }
-	.upload-hint { font-size: 0.6875rem; color: var(--color-text-tertiary); }
+	.logo-upload-wrap {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+	.logo-preview {
+		width: 64px;
+		height: 64px;
+		border-radius: var(--radius-md);
+		background: var(--color-accent);
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 800;
+		font-size: 1rem;
+	}
+	.upload-btn-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.upload-hint {
+		font-size: 0.6875rem;
+		color: var(--color-text-tertiary);
+	}
 
-	.form-group { display: flex; flex-direction: column; gap: 6px; }
-	.form-group label { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
-	.form-group textarea { padding: 8px 12px; background: var(--color-bg-primary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary); font-size: 0.8125rem; resize: vertical; }
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.form-group label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--color-text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+	.form-group textarea {
+		padding: 8px 12px;
+		background: var(--color-bg-primary);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		color: var(--color-text-primary);
+		font-size: 0.8125rem;
+		resize: vertical;
+	}
 
-	.form-footer { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
-	.save-msg { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--color-success); font-weight: 600; }
+	.form-footer {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 12px;
+	}
+	.save-msg {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.8125rem;
+		color: var(--color-success);
+		font-weight: 600;
+	}
 </style>

@@ -27,8 +27,12 @@ function createThemeStore() {
 	}
 
 	return {
-		get current() { return theme; },
-		get isDark() { return theme === 'dark'; },
+		get current() {
+			return theme;
+		},
+		get isDark() {
+			return theme === 'dark';
+		},
 
 		toggle() {
 			theme = theme === 'dark' ? 'light' : 'dark';

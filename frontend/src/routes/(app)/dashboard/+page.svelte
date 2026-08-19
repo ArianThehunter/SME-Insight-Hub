@@ -5,124 +5,249 @@
 <script lang="ts">
 	import { localeStore } from '$lib/stores/locale.svelte';
 	import {
-		TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight,
-		Receipt, Wallet, Banknote, Users, Package, FileText,
-		AlertTriangle, Sparkles, Activity, Clock,
-		UserPlus, Upload, CheckCircle, ScanLine, Truck,
-		BarChart3, Megaphone, UserMinus,
-		ChevronRight, MoreHorizontal, ExternalLink
+		TrendingUp,
+		TrendingDown,
+		ArrowUpRight,
+		ArrowDownRight,
+		Receipt,
+		Wallet,
+		Banknote,
+		Users,
+		Package,
+		FileText,
+		AlertTriangle,
+		Sparkles,
+		Activity,
+		Clock,
+		UserPlus,
+		Upload,
+		CheckCircle,
+		ScanLine,
+		Truck,
+		BarChart3,
+		Megaphone,
+		UserMinus,
+		ChevronRight,
+		MoreHorizontal,
+		ExternalLink
 	} from '@lucide/svelte';
 
 	// ── Demo KPI Data ──────────────────────────────────
 	const kpis = [
 		{
-			id: 'revenue', title: 'Revenue', titleBn: 'রাজস্ব',
-			value: 28450000, formatted: '৳2,84,50,000',
-			change: 12.5, direction: 'up',
+			id: 'revenue',
+			title: 'Revenue',
+			titleBn: 'রাজস্ব',
+			value: 28450000,
+			formatted: '৳2,84,50,000',
+			change: 12.5,
+			direction: 'up',
 			sparkline: [20, 22, 19, 24, 21, 25, 23, 27, 24, 28, 26, 29],
-			icon: TrendingUp, color: 'emerald',
+			icon: TrendingUp,
+			color: 'emerald'
 		},
 		{
-			id: 'expenses', title: 'Expenses', titleBn: 'ব্যয়',
-			value: 18200000, formatted: '৳1,82,00,000',
-			change: 8.3, direction: 'up',
+			id: 'expenses',
+			title: 'Expenses',
+			titleBn: 'ব্যয়',
+			value: 18200000,
+			formatted: '৳1,82,00,000',
+			change: 8.3,
+			direction: 'up',
 			sparkline: [14, 15, 13, 16, 15, 17, 16, 18, 15, 17, 18, 19],
-			icon: Receipt, color: 'rose',
+			icon: Receipt,
+			color: 'rose'
 		},
 		{
-			id: 'profit', title: 'Profit', titleBn: 'মুনাফা',
-			value: 10250000, formatted: '৳1,02,50,000',
-			change: 18.2, direction: 'up',
+			id: 'profit',
+			title: 'Profit',
+			titleBn: 'মুনাফা',
+			value: 10250000,
+			formatted: '৳1,02,50,000',
+			change: 18.2,
+			direction: 'up',
 			sparkline: [6, 7, 6, 8, 7, 9, 8, 10, 9, 11, 10, 12],
-			icon: Wallet, color: 'blue',
+			icon: Wallet,
+			color: 'blue'
 		},
 		{
-			id: 'cashflow', title: 'Cash Flow', titleBn: 'নগদ প্রবাহ',
-			value: 5800000, formatted: '৳58,00,000',
-			change: 5.1, direction: 'up',
+			id: 'cashflow',
+			title: 'Cash Flow',
+			titleBn: 'নগদ প্রবাহ',
+			value: 5800000,
+			formatted: '৳58,00,000',
+			change: 5.1,
+			direction: 'up',
 			sparkline: [4, 5, 4, 6, 5, 6, 5, 7, 6, 6, 5, 7],
-			icon: Banknote, color: 'violet',
+			icon: Banknote,
+			color: 'violet'
 		},
 		{
-			id: 'customers', title: 'Customers', titleBn: 'গ্রাহক',
-			value: 1247, formatted: '1,247',
-			change: 15.3, direction: 'up',
+			id: 'customers',
+			title: 'Customers',
+			titleBn: 'গ্রাহক',
+			value: 1247,
+			formatted: '1,247',
+			change: 15.3,
+			direction: 'up',
 			sparkline: [90, 95, 98, 100, 105, 108, 110, 115, 118, 120, 122, 125],
-			icon: Users, color: 'cyan',
+			icon: Users,
+			color: 'cyan'
 		},
 		{
-			id: 'inventory', title: 'Inventory Value', titleBn: 'মজুদ মূল্য',
-			value: 12500000, formatted: '৳1,25,00,000',
-			change: -3.2, direction: 'down',
+			id: 'inventory',
+			title: 'Inventory Value',
+			titleBn: 'মজুদ মূল্য',
+			value: 12500000,
+			formatted: '৳1,25,00,000',
+			change: -3.2,
+			direction: 'down',
 			sparkline: [110, 108, 112, 107, 105, 108, 103, 106, 104, 105, 102, 100],
-			icon: Package, color: 'amber',
+			icon: Package,
+			color: 'amber'
 		},
 		{
-			id: 'invoices', title: 'Outstanding Invoices', titleBn: 'বকেয়া চালান',
-			value: 3200000, formatted: '৳32,00,000',
-			change: -6.8, direction: 'down',
+			id: 'invoices',
+			title: 'Outstanding Invoices',
+			titleBn: 'বকেয়া চালান',
+			value: 3200000,
+			formatted: '৳32,00,000',
+			change: -6.8,
+			direction: 'down',
 			sparkline: [35, 33, 30, 32, 28, 30, 27, 25, 28, 26, 24, 22],
-			icon: FileText, color: 'orange',
+			icon: FileText,
+			color: 'orange'
 		},
 		{
-			id: 'growth', title: 'Growth', titleBn: 'প্রবৃদ্ধি',
-			value: 12.5, formatted: '12.5%',
-			change: 2.1, direction: 'up',
+			id: 'growth',
+			title: 'Growth',
+			titleBn: 'প্রবৃদ্ধি',
+			value: 12.5,
+			formatted: '12.5%',
+			change: 2.1,
+			direction: 'up',
 			sparkline: [8, 9, 8, 10, 9, 11, 10, 11, 11, 12, 12, 13],
-			icon: TrendingUp, color: 'teal',
-		},
+			icon: TrendingUp,
+			color: 'teal'
+		}
 	];
 
 	// ── AI Insights ────────────────────────────────────
 	const insights = [
 		{
-			title: 'Revenue Growth Acceleration', titleBn: 'রাজস্ব বৃদ্ধি ত্বরান্বিত',
+			title: 'Revenue Growth Acceleration',
+			titleBn: 'রাজস্ব বৃদ্ধি ত্বরান্বিত',
 			desc: 'Revenue increased by 12.5% compared to last quarter, driven primarily by electronics and healthcare categories.',
 			descBn: 'গত প্রান্তিকের তুলনায় রাজস্ব ১২.৫% বৃদ্ধি পেয়েছে।',
-			severity: 'success', icon: TrendingUp, metric: '+12.5%',
+			severity: 'success',
+			icon: TrendingUp,
+			metric: '+12.5%'
 		},
 		{
-			title: 'Customer Retention Alert', titleBn: 'গ্রাহক ধারণ সতর্কতা',
-			desc: 'Customer retention rate declined by 6.2% this month. 23 enterprise customers haven\'t placed orders in 60 days.',
+			title: 'Customer Retention Alert',
+			titleBn: 'গ্রাহক ধারণ সতর্কতা',
+			desc: "Customer retention rate declined by 6.2% this month. 23 enterprise customers haven't placed orders in 60 days.",
 			descBn: 'এই মাসে গ্রাহক ধরে রাখার হার ৬.২% কমেছে।',
-			severity: 'warning', icon: UserMinus, metric: '-6.2%',
+			severity: 'warning',
+			icon: UserMinus,
+			metric: '-6.2%'
 		},
 		{
-			title: 'Critical Stock Level', titleBn: 'মজুদের সংকটপূর্ণ স্তর',
+			title: 'Critical Stock Level',
+			titleBn: 'মজুদের সংকটপূর্ণ স্তর',
 			desc: 'Samsung Galaxy A54 stock critically low — 12 units remaining, avg daily sale: 8 units. Reorder immediately.',
 			descBn: 'Samsung Galaxy A54-এর মজুদ সংকটপূর্ণ — মাত্র ১২ ইউনিট অবশিষ্ট।',
-			severity: 'critical', icon: AlertTriangle, metric: '12 units',
+			severity: 'critical',
+			icon: AlertTriangle,
+			metric: '12 units'
 		},
 		{
-			title: 'Supplier Delivery Delays', titleBn: 'সরবরাহকারী বিলম্ব',
+			title: 'Supplier Delivery Delays',
+			titleBn: 'সরবরাহকারী বিলম্ব',
 			desc: 'Global Trade BD delayed deliveries 3 months in a row. Average delay: 5.2 days. Consider diversifying.',
 			descBn: 'Global Trade BD পরপর ৩ মাস ডেলিভারি বিলম্ব করেছে।',
-			severity: 'warning', icon: Truck, metric: '5.2 days',
+			severity: 'warning',
+			icon: Truck,
+			metric: '5.2 days'
 		},
 		{
-			title: 'Sales Peak Pattern', titleBn: 'বিক্রয় শীর্ষ প্যাটার্ন',
+			title: 'Sales Peak Pattern',
+			titleBn: 'বিক্রয় শীর্ষ প্যাটার্ন',
 			desc: 'Sales peak on Friday afternoons (2-6 PM) and Saturday mornings. Increase staffing during these periods.',
 			descBn: 'শুক্রবার বিকেলে এবং শনিবার সকালে বিক্রয় সর্বোচ্চ হয়।',
-			severity: 'info', icon: BarChart3, metric: 'Fri-Sat',
+			severity: 'info',
+			icon: BarChart3,
+			metric: 'Fri-Sat'
 		},
 		{
-			title: 'Marketing ROI Improved', titleBn: 'বিপণন ROI উন্নতি',
+			title: 'Marketing ROI Improved',
+			titleBn: 'বিপণন ROI উন্নতি',
 			desc: 'Marketing ROI improved by 18.3% this quarter. Social media campaigns generated 340 new leads.',
 			descBn: 'এই প্রান্তিকে বিপণন ROI ১৮.৩% উন্নতি হয়েছে।',
-			severity: 'success', icon: Megaphone, metric: '+18.3%',
-		},
+			severity: 'success',
+			icon: Megaphone,
+			metric: '+18.3%'
+		}
 	];
 
 	// ── Activity Feed ──────────────────────────────────
 	const activities = [
-		{ title: 'New Invoice Uploaded', desc: 'INV-2024-0847 from Rahman Enterprise — ৳125,000', icon: FileText, time: '12m ago', type: 'invoice' },
-		{ title: 'Monthly Report Generated', desc: 'May 2024 Executive Summary report ready', icon: BarChart3, time: '45m ago', type: 'report' },
-		{ title: 'New Customer Registered', desc: 'ABC Trading Co. (মোঃ করিম ট্রেডিং) — Enterprise', icon: UserPlus, time: '1h ago', type: 'customer' },
-		{ title: 'Low Stock Alert', desc: 'Wireless Mouse MX-200 below reorder level (8 remaining)', icon: AlertTriangle, time: '2h ago', type: 'alert' },
-		{ title: 'Bulk Import Completed', desc: '156 product records imported from CSV', icon: Upload, time: '3h ago', type: 'import' },
-		{ title: 'Order Delivered', desc: 'ORD-2024-1234 delivered to Dhaka — ৳85,500', icon: CheckCircle, time: '4h ago', type: 'order' },
-		{ title: 'Payment Received', desc: 'INV-2024-0839 — ৳250,000 via bank transfer', icon: Banknote, time: '5h ago', type: 'payment' },
-		{ title: 'OCR Processing Complete', desc: '3 invoices processed — 94.2% avg confidence', icon: ScanLine, time: '6h ago', type: 'processing' },
+		{
+			title: 'New Invoice Uploaded',
+			desc: 'INV-2024-0847 from Rahman Enterprise — ৳125,000',
+			icon: FileText,
+			time: '12m ago',
+			type: 'invoice'
+		},
+		{
+			title: 'Monthly Report Generated',
+			desc: 'May 2024 Executive Summary report ready',
+			icon: BarChart3,
+			time: '45m ago',
+			type: 'report'
+		},
+		{
+			title: 'New Customer Registered',
+			desc: 'ABC Trading Co. (মোঃ করিম ট্রেডিং) — Enterprise',
+			icon: UserPlus,
+			time: '1h ago',
+			type: 'customer'
+		},
+		{
+			title: 'Low Stock Alert',
+			desc: 'Wireless Mouse MX-200 below reorder level (8 remaining)',
+			icon: AlertTriangle,
+			time: '2h ago',
+			type: 'alert'
+		},
+		{
+			title: 'Bulk Import Completed',
+			desc: '156 product records imported from CSV',
+			icon: Upload,
+			time: '3h ago',
+			type: 'import'
+		},
+		{
+			title: 'Order Delivered',
+			desc: 'ORD-2024-1234 delivered to Dhaka — ৳85,500',
+			icon: CheckCircle,
+			time: '4h ago',
+			type: 'order'
+		},
+		{
+			title: 'Payment Received',
+			desc: 'INV-2024-0839 — ৳250,000 via bank transfer',
+			icon: Banknote,
+			time: '5h ago',
+			type: 'payment'
+		},
+		{
+			title: 'OCR Processing Complete',
+			desc: '3 invoices processed — 94.2% avg confidence',
+			icon: ScanLine,
+			time: '6h ago',
+			type: 'processing'
+		}
 	];
 
 	// ── Sparkline SVG helper ───────────────────────────
@@ -151,7 +276,7 @@
 			cyan: 'var(--color-info)',
 			amber: 'var(--color-warning)',
 			orange: 'var(--color-warning)',
-			teal: '#14b8a6',
+			teal: '#14b8a6'
 		};
 		return map[color] ?? 'var(--color-accent)';
 	}
@@ -161,7 +286,7 @@
 			success: 'var(--color-success)',
 			warning: 'var(--color-warning)',
 			critical: 'var(--color-danger)',
-			info: 'var(--color-info)',
+			info: 'var(--color-info)'
 		};
 		return map[severity] ?? 'var(--color-info)';
 	}
@@ -175,15 +300,18 @@
 			import: 'var(--color-info)',
 			order: 'var(--color-success)',
 			payment: 'var(--color-success)',
-			processing: 'var(--color-accent)',
+			processing: 'var(--color-accent)'
 		};
 		return map[type] ?? 'var(--color-text-tertiary)';
 	}
 	function exportDashboardCSV() {
 		const headers = 'Metric_ID,Title_EN,Title_BN,Current_Value,Growth_Rate,Trend_Direction\n';
-		const rows = kpis.map(k =>
-			`"${k.id}","${k.title}","${k.titleBn}","${k.formatted}",${k.change}%,"${k.direction}"`
-		).join('\n');
+		const rows = kpis
+			.map(
+				(k) =>
+					`"${k.id}","${k.title}","${k.titleBn}","${k.formatted}",${k.change}%,"${k.direction}"`
+			)
+			.join('\n');
 
 		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
 		const url = URL.createObjectURL(blob);
@@ -199,7 +327,10 @@
 
 <svelte:head>
 	<title>Dashboard — SME Insight Hub</title>
-	<meta name="description" content="Executive dashboard with real-time KPIs, analytics, and AI business insights" />
+	<meta
+		name="description"
+		content="Executive dashboard with real-time KPIs, analytics, and AI business insights"
+	/>
 </svelte:head>
 
 <div class="dashboard">
@@ -229,12 +360,12 @@
 	<section class="kpi-grid" aria-label="Key Performance Indicators">
 		{#each kpis as kpi, i}
 			{@const Icon = kpi.icon}
-			<article
-				class="kpi-card animate-fade-in-up"
-				style="animation-delay: {i * 60}ms"
-			>
+			<article class="kpi-card animate-fade-in-up" style="animation-delay: {i * 60}ms">
 				<div class="kpi-header">
-					<div class="kpi-icon" style="background: {getColorVar(kpi.color)}15; color: {getColorVar(kpi.color)}">
+					<div
+						class="kpi-icon"
+						style="background: {getColorVar(kpi.color)}15; color: {getColorVar(kpi.color)}"
+					>
 						<Icon size={18} />
 					</div>
 					<button class="kpi-more" aria-label="More options">
@@ -251,7 +382,8 @@
 					<div
 						class="kpi-change"
 						class:positive={kpi.direction === 'up' && kpi.id !== 'expenses'}
-						class:negative={kpi.direction === 'down' || (kpi.direction === 'up' && kpi.id === 'expenses')}
+						class:negative={kpi.direction === 'down' ||
+							(kpi.direction === 'up' && kpi.id === 'expenses')}
 					>
 						{#if kpi.direction === 'up'}
 							<ArrowUpRight size={14} />
@@ -295,15 +427,41 @@
 					<svg viewBox="0 0 600 200" class="demo-chart">
 						<!-- Grid lines -->
 						{#each [0, 1, 2, 3, 4] as i}
-							<line x1="0" y1={i * 50} x2="600" y2={i * 50} stroke="var(--color-border)" stroke-width="0.5" opacity="0.3" />
+							<line
+								x1="0"
+								y1={i * 50}
+								x2="600"
+								y2={i * 50}
+								stroke="var(--color-border)"
+								stroke-width="0.5"
+								opacity="0.3"
+							/>
 						{/each}
 						<!-- Revenue area -->
-						<path d="M0 180 L50 160 L100 140 L150 150 L200 120 L250 130 L300 100 L350 110 L400 80 L450 90 L500 60 L550 50 L600 40 L600 200 L0 200 Z"
-							fill="url(#revenueGrad)" opacity="0.3" />
-						<path d="M0 180 L50 160 L100 140 L150 150 L200 120 L250 130 L300 100 L350 110 L400 80 L450 90 L500 60 L550 50 L600 40"
-							fill="none" stroke="var(--color-success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path
+							d="M0 180 L50 160 L100 140 L150 150 L200 120 L250 130 L300 100 L350 110 L400 80 L450 90 L500 60 L550 50 L600 40 L600 200 L0 200 Z"
+							fill="url(#revenueGrad)"
+							opacity="0.3"
+						/>
+						<path
+							d="M0 180 L50 160 L100 140 L150 150 L200 120 L250 130 L300 100 L350 110 L400 80 L450 90 L500 60 L550 50 L600 40"
+							fill="none"
+							stroke="var(--color-success)"
+							stroke-width="2.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
 						<!-- Target line -->
-						<line x1="0" y1="100" x2="600" y2="100" stroke="var(--color-violet)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6" />
+						<line
+							x1="0"
+							y1="100"
+							x2="600"
+							y2="100"
+							stroke="var(--color-violet)"
+							stroke-width="1.5"
+							stroke-dasharray="6 4"
+							opacity="0.6"
+						/>
 						<defs>
 							<linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
 								<stop offset="0%" stop-color="var(--color-success)" stop-opacity="0.4" />
@@ -345,17 +503,23 @@
 			<div class="insights-list">
 				{#each insights as insight, i}
 					{@const Icon = insight.icon}
-					<div
-						class="insight-item"
-						style="animation-delay: {700 + i * 80}ms"
-					>
-						<div class="insight-icon" style="background: {getSeverityColor(insight.severity)}15; color: {getSeverityColor(insight.severity)}">
+					<div class="insight-item" style="animation-delay: {700 + i * 80}ms">
+						<div
+							class="insight-icon"
+							style="background: {getSeverityColor(insight.severity)}15; color: {getSeverityColor(
+								insight.severity
+							)}"
+						>
 							<Icon size={16} />
 						</div>
 						<div class="insight-content">
 							<div class="insight-header">
-								<span class="insight-title">{localeStore.isBangla ? insight.titleBn : insight.title}</span>
-								<span class="insight-metric" style="color: {getSeverityColor(insight.severity)}">{insight.metric}</span>
+								<span class="insight-title"
+									>{localeStore.isBangla ? insight.titleBn : insight.title}</span
+								>
+								<span class="insight-metric" style="color: {getSeverityColor(insight.severity)}"
+									>{insight.metric}</span
+								>
 							</div>
 							<p class="insight-desc">{localeStore.isBangla ? insight.descBn : insight.desc}</p>
 						</div>
@@ -375,25 +539,93 @@
 			<div class="donut-chart-container">
 				<svg viewBox="0 0 200 200" class="donut-chart">
 					<!-- Donut segments -->
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-success)" stroke-width="24" stroke-dasharray="110 330" stroke-dashoffset="-10" opacity="0.9" />
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-accent)" stroke-width="24" stroke-dasharray="95 345" stroke-dashoffset="-120" opacity="0.9" />
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-violet)" stroke-width="24" stroke-dasharray="60 380" stroke-dashoffset="-215" opacity="0.9" />
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-warning)" stroke-width="24" stroke-dasharray="50 390" stroke-dashoffset="-275" opacity="0.9" />
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-info)" stroke-width="24" stroke-dasharray="30 410" stroke-dashoffset="-325" opacity="0.9" />
-					<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-danger)" stroke-width="24" stroke-dasharray="45 395" stroke-dashoffset="-355" opacity="0.9" />
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-success)"
+						stroke-width="24"
+						stroke-dasharray="110 330"
+						stroke-dashoffset="-10"
+						opacity="0.9"
+					/>
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-accent)"
+						stroke-width="24"
+						stroke-dasharray="95 345"
+						stroke-dashoffset="-120"
+						opacity="0.9"
+					/>
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-violet)"
+						stroke-width="24"
+						stroke-dasharray="60 380"
+						stroke-dashoffset="-215"
+						opacity="0.9"
+					/>
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-warning)"
+						stroke-width="24"
+						stroke-dasharray="50 390"
+						stroke-dashoffset="-275"
+						opacity="0.9"
+					/>
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-info)"
+						stroke-width="24"
+						stroke-dasharray="30 410"
+						stroke-dashoffset="-325"
+						opacity="0.9"
+					/>
+					<circle
+						cx="100"
+						cy="100"
+						r="70"
+						fill="none"
+						stroke="var(--color-danger)"
+						stroke-width="24"
+						stroke-dasharray="45 395"
+						stroke-dashoffset="-355"
+						opacity="0.9"
+					/>
 					<!-- Center text -->
-					<text x="100" y="95" text-anchor="middle" fill="var(--color-text-primary)" font-size="18" font-weight="700" font-family="var(--font-sans)">৳1.82Cr</text>
-					<text x="100" y="115" text-anchor="middle" fill="var(--color-text-tertiary)" font-size="10" font-family="var(--font-sans)">Total Expenses</text>
+					<text
+						x="100"
+						y="95"
+						text-anchor="middle"
+						fill="var(--color-text-primary)"
+						font-size="18"
+						font-weight="700"
+						font-family="var(--font-sans)">৳1.82Cr</text
+					>
+					<text
+						x="100"
+						y="115"
+						text-anchor="middle"
+						fill="var(--color-text-tertiary)"
+						font-size="10"
+						font-family="var(--font-sans)">Total Expenses</text
+					>
 				</svg>
 				<div class="donut-legend">
-					{#each [
-						{ label: 'Salaries', value: '৳65L', color: 'var(--color-success)' },
-						{ label: 'Operations', value: '৳42L', color: 'var(--color-accent)' },
-						{ label: 'Marketing', value: '৳21L', color: 'var(--color-violet)' },
-						{ label: 'Rent', value: '৳18L', color: 'var(--color-warning)' },
-						{ label: 'Utilities', value: '৳9L', color: 'var(--color-info)' },
-						{ label: 'Other', value: '৳27L', color: 'var(--color-danger)' },
-					] as item}
+					{#each [{ label: 'Salaries', value: '৳65L', color: 'var(--color-success)' }, { label: 'Operations', value: '৳42L', color: 'var(--color-accent)' }, { label: 'Marketing', value: '৳21L', color: 'var(--color-violet)' }, { label: 'Rent', value: '৳18L', color: 'var(--color-warning)' }, { label: 'Utilities', value: '৳9L', color: 'var(--color-info)' }, { label: 'Other', value: '৳27L', color: 'var(--color-danger)' }] as item}
 						<div class="donut-legend-item">
 							<span class="legend-dot" style="background: {item.color}"></span>
 							<span class="legend-label">{item.label}</span>
@@ -410,14 +642,7 @@
 				<h2 class="card-title">Sales by Category</h2>
 			</div>
 			<div class="bar-chart-container">
-				{#each [
-					{ label: 'Electronics', current: 85, prev: 72, value: '৳85L' },
-					{ label: 'Healthcare', current: 46, prev: 38, value: '৳46L' },
-					{ label: 'Clothing', current: 52, prev: 48, value: '৳52L' },
-					{ label: 'Food', current: 41, prev: 39, value: '৳41L' },
-					{ label: 'Furniture', current: 38, prev: 42, value: '৳38L' },
-					{ label: 'Stationery', current: 22, prev: 19, value: '৳22L' },
-				] as cat}
+				{#each [{ label: 'Electronics', current: 85, prev: 72, value: '৳85L' }, { label: 'Healthcare', current: 46, prev: 38, value: '৳46L' }, { label: 'Clothing', current: 52, prev: 48, value: '৳52L' }, { label: 'Food', current: 41, prev: 39, value: '৳41L' }, { label: 'Furniture', current: 38, prev: 42, value: '৳38L' }, { label: 'Stationery', current: 22, prev: 19, value: '৳22L' }] as cat}
 					<div class="bar-row">
 						<span class="bar-label">{cat.label}</span>
 						<div class="bar-track">
@@ -446,14 +671,7 @@
 				<h2 class="card-title">Sales by Region</h2>
 			</div>
 			<div class="region-chart-container">
-				{#each [
-					{ name: 'Dhaka', namebn: 'ঢাকা', value: 12000000, pct: 100, formatted: '৳1.2Cr' },
-					{ name: 'Chittagong', namebn: 'চট্টগ্রাম', value: 5500000, pct: 46, formatted: '৳55L' },
-					{ name: 'Rajshahi', namebn: 'রাজশাহী', value: 2800000, pct: 23, formatted: '৳28L' },
-					{ name: 'Khulna', namebn: 'খুলনা', value: 2200000, pct: 18, formatted: '৳22L' },
-					{ name: 'Sylhet', namebn: 'সিলেট', value: 1800000, pct: 15, formatted: '৳18L' },
-					{ name: 'Rangpur', namebn: 'রংপুর', value: 1200000, pct: 10, formatted: '৳12L' },
-				] as region}
+				{#each [{ name: 'Dhaka', namebn: 'ঢাকা', value: 12000000, pct: 100, formatted: '৳1.2Cr' }, { name: 'Chittagong', namebn: 'চট্টগ্রাম', value: 5500000, pct: 46, formatted: '৳55L' }, { name: 'Rajshahi', namebn: 'রাজশাহী', value: 2800000, pct: 23, formatted: '৳28L' }, { name: 'Khulna', namebn: 'খুলনা', value: 2200000, pct: 18, formatted: '৳22L' }, { name: 'Sylhet', namebn: 'সিলেট', value: 1800000, pct: 15, formatted: '৳18L' }, { name: 'Rangpur', namebn: 'রংপুর', value: 1200000, pct: 10, formatted: '৳12L' }] as region}
 					<div class="region-row">
 						<div class="region-info">
 							<span class="region-name">{localeStore.isBangla ? region.namebn : region.name}</span>
@@ -533,7 +751,8 @@
 		gap: 8px;
 	}
 
-	.btn-primary, .btn-outline {
+	.btn-primary,
+	.btn-outline {
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
@@ -705,7 +924,9 @@
 	}
 
 	/* ── Card Styles ──────────────────────────────────── */
-	.chart-card, .insights-card, .activity-card {
+	.chart-card,
+	.insights-card,
+	.activity-card {
 		background: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-lg);
@@ -748,7 +969,8 @@
 		transition: all var(--transition-fast);
 	}
 
-	.period-btn.active, .period-btn:hover {
+	.period-btn.active,
+	.period-btn:hover {
 		background: var(--color-accent-muted);
 		color: var(--color-accent-light);
 		border-color: var(--color-accent);
@@ -1104,21 +1326,41 @@
 
 	/* ── Responsive ───────────────────────────────────── */
 	@media (max-width: 1280px) {
-		.kpi-grid { grid-template-columns: repeat(4, 1fr); }
-		.charts-row { grid-template-columns: repeat(2, 1fr); }
+		.kpi-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		.charts-row {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
 	@media (max-width: 1024px) {
-		.kpi-grid { grid-template-columns: repeat(2, 1fr); }
-		.main-grid { grid-template-columns: 1fr; }
-		.charts-row { grid-template-columns: 1fr; }
-		.activity-list { grid-template-columns: 1fr; }
-		.activity-item:nth-child(odd) { border-right: none; }
+		.kpi-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.main-grid {
+			grid-template-columns: 1fr;
+		}
+		.charts-row {
+			grid-template-columns: 1fr;
+		}
+		.activity-list {
+			grid-template-columns: 1fr;
+		}
+		.activity-item:nth-child(odd) {
+			border-right: none;
+		}
 	}
 
 	@media (max-width: 640px) {
-		.kpi-grid { grid-template-columns: 1fr; }
-		.page-header { flex-direction: column; }
-		.header-actions { width: 100%; }
+		.kpi-grid {
+			grid-template-columns: 1fr;
+		}
+		.page-header {
+			flex-direction: column;
+		}
+		.header-actions {
+			width: 100%;
+		}
 	}
 </style>

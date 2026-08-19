@@ -7,9 +7,19 @@
 	import { localeStore } from '$lib/stores/locale.svelte';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import {
-		Search, Bell, Sun, Moon, Menu,
-		Languages, ChevronDown, LogOut, User, Settings,
-		Sparkles, Loader, Building2
+		Search,
+		Bell,
+		Sun,
+		Moon,
+		Menu,
+		Languages,
+		ChevronDown,
+		LogOut,
+		User,
+		Settings,
+		Sparkles,
+		Loader,
+		Building2
 	} from '@lucide/svelte';
 
 	let showUserMenu = $state(false);
@@ -23,10 +33,28 @@
 	}
 
 	const demoNotifications = [
-		{ id: 1, title: 'Invoice processed', desc: 'INV-2024-0847 extracted with 96% confidence', time: '12m ago', read: false },
-		{ id: 2, title: 'Low stock alert', desc: 'Wireless Mouse MX-200 below reorder level', time: '1h ago', read: false },
-		{ id: 3, title: 'Report ready', desc: 'May 2024 Executive Summary generated', time: '2h ago', read: true },
-		{ id: 4, title: 'New customer', desc: 'ABC Trading Co. registered', time: '3h ago', read: true },
+		{
+			id: 1,
+			title: 'Invoice processed',
+			desc: 'INV-2024-0847 extracted with 96% confidence',
+			time: '12m ago',
+			read: false
+		},
+		{
+			id: 2,
+			title: 'Low stock alert',
+			desc: 'Wireless Mouse MX-200 below reorder level',
+			time: '1h ago',
+			read: false
+		},
+		{
+			id: 3,
+			title: 'Report ready',
+			desc: 'May 2024 Executive Summary generated',
+			time: '2h ago',
+			read: true
+		},
+		{ id: 4, title: 'New customer', desc: 'ABC Trading Co. registered', time: '3h ago', read: true }
 	];
 </script>
 
@@ -35,7 +63,11 @@
 <header class="topnav">
 	<div class="topnav-left">
 		<!-- Mobile menu toggle -->
-		<button class="mobile-menu-btn" onclick={() => sidebarStore.toggleMobile()} aria-label="Toggle menu">
+		<button
+			class="mobile-menu-btn"
+			onclick={() => sidebarStore.toggleMobile()}
+			aria-label="Toggle menu"
+		>
 			<Menu size={20} />
 		</button>
 
@@ -46,8 +78,8 @@
 				type="text"
 				placeholder={localeStore.t('action.search')}
 				bind:value={searchQuery}
-				onfocus={() => searchFocused = true}
-				onblur={() => searchFocused = false}
+				onfocus={() => (searchFocused = true)}
+				onblur={() => (searchFocused = false)}
 				class="search-input"
 				aria-label="Search"
 			/>
@@ -71,7 +103,10 @@
 		<!-- Language toggle -->
 		<button
 			class="topnav-btn lang-btn"
-			onclick={(e: MouseEvent) => { e.stopPropagation(); localeStore.toggle(); }}
+			onclick={(e: MouseEvent) => {
+				e.stopPropagation();
+				localeStore.toggle();
+			}}
 			title={localeStore.isBangla ? 'Switch to English' : 'বাংলায় পরিবর্তন করুন'}
 			aria-label="Toggle language"
 		>
@@ -82,7 +117,10 @@
 		<!-- Theme toggle -->
 		<button
 			class="topnav-btn"
-			onclick={(e: MouseEvent) => { e.stopPropagation(); themeStore.toggle(); }}
+			onclick={(e: MouseEvent) => {
+				e.stopPropagation();
+				themeStore.toggle();
+			}}
 			title={themeStore.isDark ? 'Switch to light mode' : 'Switch to dark mode'}
 			aria-label="Toggle theme"
 		>
@@ -97,7 +135,11 @@
 		<div class="dropdown-container">
 			<button
 				class="topnav-btn notification-btn"
-				onclick={(e: MouseEvent) => { e.stopPropagation(); showNotifications = !showNotifications; showUserMenu = false; }}
+				onclick={(e: MouseEvent) => {
+					e.stopPropagation();
+					showNotifications = !showNotifications;
+					showUserMenu = false;
+				}}
 				title={localeStore.t('action.notifications')}
 				aria-label="Notifications"
 				aria-haspopup="dialog"
@@ -150,7 +192,11 @@
 		<div class="dropdown-container">
 			<button
 				class="user-menu-trigger"
-				onclick={(e: MouseEvent) => { e.stopPropagation(); showUserMenu = !showUserMenu; showNotifications = false; }}
+				onclick={(e: MouseEvent) => {
+					e.stopPropagation();
+					showUserMenu = !showUserMenu;
+					showNotifications = false;
+				}}
 				aria-haspopup="menu"
 				aria-expanded={showUserMenu}
 			>
@@ -159,7 +205,8 @@
 				</div>
 				<div class="user-info">
 					<span class="user-name">{authStore.user?.full_name ?? 'Rafiq Ahmed'}</span>
-					<span class="user-role">{authStore.user?.role?.display_name ?? 'Organization Owner'}</span>
+					<span class="user-role">{authStore.user?.role?.display_name ?? 'Organization Owner'}</span
+					>
 				</div>
 				<ChevronDown size={14} />
 			</button>

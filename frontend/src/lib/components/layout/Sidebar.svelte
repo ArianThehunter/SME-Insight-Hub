@@ -7,17 +7,53 @@
 	import { sidebarStore } from '$lib/stores/sidebar.svelte';
 	import { localeStore } from '$lib/stores/locale.svelte';
 	import {
-		LayoutDashboard, BarChart3, TrendingUp, Target,
-		ShoppingCart, LineChart, Receipt, Users,
-		Package, Building2, Truck, AlertTriangle,
-		Wallet, FileText, Banknote, PieChart,
-		Brain, Search, Wrench, BookOpen, Telescope,
-		Upload, ScanLine, ListTodo, Database, FileDown,
-		Calendar, CalendarDays, CalendarRange, Clock,
-		UserPlus, Filter, UserCheck,
-		Shield, KeyRound, ScrollText, Activity,
-		Building, Globe, Palette, Key, Plug,
-		ChevronDown, ChevronRight, PanelLeftClose, PanelLeft, Zap
+		LayoutDashboard,
+		BarChart3,
+		TrendingUp,
+		Target,
+		ShoppingCart,
+		LineChart,
+		Receipt,
+		Users,
+		Package,
+		Building2,
+		Truck,
+		AlertTriangle,
+		Wallet,
+		FileText,
+		Banknote,
+		PieChart,
+		Brain,
+		Search,
+		Wrench,
+		BookOpen,
+		Telescope,
+		Upload,
+		ScanLine,
+		ListTodo,
+		Database,
+		FileDown,
+		Calendar,
+		CalendarDays,
+		CalendarRange,
+		Clock,
+		UserPlus,
+		Filter,
+		UserCheck,
+		Shield,
+		KeyRound,
+		ScrollText,
+		Activity,
+		Building,
+		Globe,
+		Palette,
+		Key,
+		Plug,
+		ChevronDown,
+		ChevronRight,
+		PanelLeftClose,
+		PanelLeft,
+		Zap
 	} from '@lucide/svelte';
 
 	interface NavItem {
@@ -37,104 +73,254 @@
 
 	const navGroups: NavGroup[] = [
 		{
-			title: 'Dashboard', titleKey: 'nav.dashboard', icon: LayoutDashboard,
+			title: 'Dashboard',
+			titleKey: 'nav.dashboard',
+			icon: LayoutDashboard,
 			defaultOpen: true,
 			items: [
 				{ label: 'Overview', labelKey: 'nav.overview', href: '/dashboard', icon: LayoutDashboard },
-				{ label: 'Executive Summary', labelKey: 'nav.executive_summary', href: '/dashboard/executive', icon: BarChart3 },
-				{ label: 'KPI Center', labelKey: 'nav.kpi_center', href: '/dashboard/kpis', icon: Target },
+				{
+					label: 'Executive Summary',
+					labelKey: 'nav.executive_summary',
+					href: '/dashboard/executive',
+					icon: BarChart3
+				},
+				{ label: 'KPI Center', labelKey: 'nav.kpi_center', href: '/dashboard/kpis', icon: Target }
 			]
 		},
 		{
-			title: 'Sales', titleKey: 'nav.sales', icon: ShoppingCart,
+			title: 'Sales',
+			titleKey: 'nav.sales',
+			icon: ShoppingCart,
 			items: [
-				{ label: 'Sales Analytics', labelKey: 'nav.sales_analytics', href: '/sales/analytics', icon: LineChart },
+				{
+					label: 'Sales Analytics',
+					labelKey: 'nav.sales_analytics',
+					href: '/sales/analytics',
+					icon: LineChart
+				},
 				{ label: 'Orders', labelKey: 'nav.orders', href: '/sales/orders', icon: ShoppingCart },
 				{ label: 'Revenue', labelKey: 'nav.revenue', href: '/sales/revenue', icon: TrendingUp },
-				{ label: 'Customers', labelKey: 'nav.customers', href: '/sales/customers', icon: Users },
+				{ label: 'Customers', labelKey: 'nav.customers', href: '/sales/customers', icon: Users }
 			]
 		},
 		{
-			title: 'Inventory', titleKey: 'nav.inventory', icon: Package,
+			title: 'Inventory',
+			titleKey: 'nav.inventory',
+			icon: Package,
 			items: [
 				{ label: 'Products', labelKey: 'nav.products', href: '/inventory/products', icon: Package },
-				{ label: 'Warehouses', labelKey: 'nav.warehouses', href: '/inventory/warehouses', icon: Building2 },
-				{ label: 'Suppliers', labelKey: 'nav.suppliers', href: '/inventory/suppliers', icon: Truck },
-				{ label: 'Stock Alerts', labelKey: 'nav.stock_alerts', href: '/inventory/alerts', icon: AlertTriangle },
+				{
+					label: 'Warehouses',
+					labelKey: 'nav.warehouses',
+					href: '/inventory/warehouses',
+					icon: Building2
+				},
+				{
+					label: 'Suppliers',
+					labelKey: 'nav.suppliers',
+					href: '/inventory/suppliers',
+					icon: Truck
+				},
+				{
+					label: 'Stock Alerts',
+					labelKey: 'nav.stock_alerts',
+					href: '/inventory/alerts',
+					icon: AlertTriangle
+				}
 			]
 		},
 		{
-			title: 'Finance', titleKey: 'nav.finance', icon: Wallet,
+			title: 'Finance',
+			titleKey: 'nav.finance',
+			icon: Wallet,
 			items: [
 				{ label: 'Expenses', labelKey: 'nav.expenses', href: '/finance/expenses', icon: Receipt },
 				{ label: 'Invoices', labelKey: 'nav.invoices', href: '/finance/invoices', icon: FileText },
-				{ label: 'Cash Flow', labelKey: 'nav.cash_flow', href: '/finance/cashflow', icon: Banknote },
-				{ label: 'Profit & Loss', labelKey: 'nav.profit_loss', href: '/finance/pnl', icon: PieChart },
+				{
+					label: 'Cash Flow',
+					labelKey: 'nav.cash_flow',
+					href: '/finance/cashflow',
+					icon: Banknote
+				},
+				{
+					label: 'Profit & Loss',
+					labelKey: 'nav.profit_loss',
+					href: '/finance/pnl',
+					icon: PieChart
+				}
 			]
 		},
 		{
-			title: 'Business Intelligence', titleKey: 'nav.bi', icon: Brain,
+			title: 'Business Intelligence',
+			titleKey: 'nav.bi',
+			icon: Brain,
 			items: [
 				{ label: 'Analytics', labelKey: 'nav.analytics', href: '/bi/analytics', icon: BarChart3 },
-				{ label: 'Data Explorer', labelKey: 'nav.data_explorer', href: '/bi/explorer', icon: Search },
-				{ label: 'KPI Builder', labelKey: 'nav.kpi_builder', href: '/bi/kpi-builder', icon: Wrench },
-				{ label: 'Custom Reports', labelKey: 'nav.custom_reports', href: '/bi/reports', icon: BookOpen },
-				{ label: 'Forecasting', labelKey: 'nav.forecasting', href: '/bi/forecasting', icon: Telescope },
+				{
+					label: 'Data Explorer',
+					labelKey: 'nav.data_explorer',
+					href: '/bi/explorer',
+					icon: Search
+				},
+				{
+					label: 'KPI Builder',
+					labelKey: 'nav.kpi_builder',
+					href: '/bi/kpi-builder',
+					icon: Wrench
+				},
+				{
+					label: 'Custom Reports',
+					labelKey: 'nav.custom_reports',
+					href: '/bi/reports',
+					icon: BookOpen
+				},
+				{
+					label: 'Forecasting',
+					labelKey: 'nav.forecasting',
+					href: '/bi/forecasting',
+					icon: Telescope
+				}
 			]
 		},
 		{
-			title: 'Documents', titleKey: 'nav.documents', icon: FileText,
+			title: 'Documents',
+			titleKey: 'nav.documents',
+			icon: FileText,
 			items: [
-				{ label: 'Upload PDF', labelKey: 'nav.upload_pdf', href: '/documents/upload', icon: Upload },
-				{ label: 'OCR Processing', labelKey: 'nav.ocr_processing', href: '/documents/ocr', icon: ScanLine },
-				{ label: 'Extraction Queue', labelKey: 'nav.extraction_queue', href: '/documents/queue', icon: ListTodo },
-				{ label: 'Parsed Data', labelKey: 'nav.parsed_data', href: '/documents/parsed', icon: Database },
-				{ label: 'CSV Export', labelKey: 'nav.csv_export', href: '/documents/export', icon: FileDown },
+				{
+					label: 'Upload PDF',
+					labelKey: 'nav.upload_pdf',
+					href: '/documents/upload',
+					icon: Upload
+				},
+				{
+					label: 'OCR Processing',
+					labelKey: 'nav.ocr_processing',
+					href: '/documents/ocr',
+					icon: ScanLine
+				},
+				{
+					label: 'Extraction Queue',
+					labelKey: 'nav.extraction_queue',
+					href: '/documents/queue',
+					icon: ListTodo
+				},
+				{
+					label: 'Parsed Data',
+					labelKey: 'nav.parsed_data',
+					href: '/documents/parsed',
+					icon: Database
+				},
+				{
+					label: 'CSV Export',
+					labelKey: 'nav.csv_export',
+					href: '/documents/export',
+					icon: FileDown
+				}
 			]
 		},
 		{
-			title: 'Reports', titleKey: 'nav.reports', icon: BookOpen,
+			title: 'Reports',
+			titleKey: 'nav.reports',
+			icon: BookOpen,
 			items: [
-				{ label: 'Monthly Reports', labelKey: 'nav.monthly_reports', href: '/reports/monthly', icon: Calendar },
-				{ label: 'Quarterly Reports', labelKey: 'nav.quarterly_reports', href: '/reports/quarterly', icon: CalendarDays },
-				{ label: 'Annual Reports', labelKey: 'nav.annual_reports', href: '/reports/annual', icon: CalendarRange },
-				{ label: 'Scheduled Reports', labelKey: 'nav.scheduled_reports', href: '/reports/scheduled', icon: Clock },
+				{
+					label: 'Monthly Reports',
+					labelKey: 'nav.monthly_reports',
+					href: '/reports/monthly',
+					icon: Calendar
+				},
+				{
+					label: 'Quarterly Reports',
+					labelKey: 'nav.quarterly_reports',
+					href: '/reports/quarterly',
+					icon: CalendarDays
+				},
+				{
+					label: 'Annual Reports',
+					labelKey: 'nav.annual_reports',
+					href: '/reports/annual',
+					icon: CalendarRange
+				},
+				{
+					label: 'Scheduled Reports',
+					labelKey: 'nav.scheduled_reports',
+					href: '/reports/scheduled',
+					icon: Clock
+				}
 			]
 		},
 		{
-			title: 'CRM', titleKey: 'nav.crm', icon: Users,
+			title: 'CRM',
+			titleKey: 'nav.crm',
+			icon: Users,
 			items: [
 				{ label: 'Customers', labelKey: 'nav.customers', href: '/crm/customers', icon: Users },
 				{ label: 'Leads', labelKey: 'nav.leads', href: '/crm/leads', icon: UserPlus },
-				{ label: 'Segmentation', labelKey: 'nav.segmentation', href: '/crm/segmentation', icon: Filter },
-				{ label: 'Retention', labelKey: 'nav.retention', href: '/crm/retention', icon: UserCheck },
+				{
+					label: 'Segmentation',
+					labelKey: 'nav.segmentation',
+					href: '/crm/segmentation',
+					icon: Filter
+				},
+				{ label: 'Retention', labelKey: 'nav.retention', href: '/crm/retention', icon: UserCheck }
 			]
 		},
 		{
-			title: 'Administration', titleKey: 'nav.admin', icon: Shield,
+			title: 'Administration',
+			titleKey: 'nav.admin',
+			icon: Shield,
 			items: [
 				{ label: 'Users', labelKey: 'nav.users', href: '/admin/users', icon: Users },
 				{ label: 'Roles', labelKey: 'nav.roles', href: '/admin/roles', icon: Shield },
-				{ label: 'Permissions', labelKey: 'nav.permissions', href: '/admin/permissions', icon: KeyRound },
+				{
+					label: 'Permissions',
+					labelKey: 'nav.permissions',
+					href: '/admin/permissions',
+					icon: KeyRound
+				},
 				{ label: 'Audit Logs', labelKey: 'nav.audit_logs', href: '/admin/audit', icon: ScrollText },
-				{ label: 'Activity Logs', labelKey: 'nav.activity_logs', href: '/admin/activity', icon: Activity },
+				{
+					label: 'Activity Logs',
+					labelKey: 'nav.activity_logs',
+					href: '/admin/activity',
+					icon: Activity
+				}
 			]
 		},
 		{
-			title: 'Settings', titleKey: 'nav.settings', icon: Wrench,
+			title: 'Settings',
+			titleKey: 'nav.settings',
+			icon: Wrench,
 			items: [
-				{ label: 'Organization', labelKey: 'nav.organization', href: '/settings/organization', icon: Building },
-				{ label: 'Localization', labelKey: 'nav.localization', href: '/settings/localization', icon: Globe },
+				{
+					label: 'Organization',
+					labelKey: 'nav.organization',
+					href: '/settings/organization',
+					icon: Building
+				},
+				{
+					label: 'Localization',
+					labelKey: 'nav.localization',
+					href: '/settings/localization',
+					icon: Globe
+				},
 				{ label: 'Branding', labelKey: 'nav.branding', href: '/settings/branding', icon: Palette },
 				{ label: 'API Keys', labelKey: 'nav.api_keys', href: '/settings/api-keys', icon: Key },
-				{ label: 'Integrations', labelKey: 'nav.integrations', href: '/settings/integrations', icon: Plug },
+				{
+					label: 'Integrations',
+					labelKey: 'nav.integrations',
+					href: '/settings/integrations',
+					icon: Plug
+				}
 			]
-		},
+		}
 	];
 
 	// Track which groups are open
 	let openGroups = $state<Record<string, boolean>>(
-		Object.fromEntries(navGroups.map(g => [g.titleKey, g.defaultOpen ?? false]))
+		Object.fromEntries(navGroups.map((g) => [g.titleKey, g.defaultOpen ?? false]))
 	);
 
 	function toggleGroup(key: string) {
@@ -148,7 +334,7 @@
 	}
 
 	function isGroupActive(group: NavGroup): boolean {
-		return group.items.some(item => isActive(item.href));
+		return group.items.some((item) => isActive(item.href));
 	}
 
 	// Auto-expand group if it contains the active route
@@ -272,7 +458,9 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 40;
-		transition: width var(--transition-slow), transform var(--transition-slow);
+		transition:
+			width var(--transition-slow),
+			transform var(--transition-slow);
 		overflow: hidden;
 	}
 

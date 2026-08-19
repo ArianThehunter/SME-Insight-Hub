@@ -37,15 +37,15 @@ const DEMO_USER: UserProfile = {
 	is_active: true,
 	role: {
 		name: 'org_owner',
-		display_name: 'Organization Owner',
+		display_name: 'Organization Owner'
 	},
 	organization: {
 		id: 'demo-org-001',
 		name: 'Acme Corporation Ltd.',
 		name_bn: 'একমি কর্পোরেশন লিমিটেড',
 		slug: 'acme-corp',
-		currency: 'BDT',
-	},
+		currency: 'BDT'
+	}
 };
 
 function createAuthStore() {
@@ -71,13 +71,27 @@ function createAuthStore() {
 	}
 
 	return {
-		get user() { return user; },
-		get accessToken() { return accessToken; },
-		get isAuthenticated() { return !!accessToken && !!user; },
-		get isLoading() { return isLoading; },
-		get isDemo() { return isDemo; },
-		get orgId() { return user?.organization?.id; },
-		get role() { return user?.role?.name ?? 'viewer'; },
+		get user() {
+			return user;
+		},
+		get accessToken() {
+			return accessToken;
+		},
+		get isAuthenticated() {
+			return !!accessToken && !!user;
+		},
+		get isLoading() {
+			return isLoading;
+		},
+		get isDemo() {
+			return isDemo;
+		},
+		get orgId() {
+			return user?.organization?.id;
+		},
+		get role() {
+			return user?.role?.name ?? 'viewer';
+		},
 
 		login(token: string, refreshToken: string, profile: UserProfile) {
 			accessToken = token;

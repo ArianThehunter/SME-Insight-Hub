@@ -42,7 +42,7 @@
 					full_name: fullName,
 					email,
 					password,
-					organization_name: orgName,
+					organization_name: orgName
 				}
 			);
 			const { access_token, refresh_token } = (tokenRes as any).data;
@@ -69,7 +69,10 @@
 
 <svelte:head>
 	<title>Create Account — SME Insight Hub</title>
-	<meta name="description" content="Create your SME Insight Hub account and start managing your business with AI-powered intelligence." />
+	<meta
+		name="description"
+		content="Create your SME Insight Hub account and start managing your business with AI-powered intelligence."
+	/>
 </svelte:head>
 
 <div class="register-card animate-fade-in-up">
@@ -147,7 +150,7 @@
 							autocomplete="new-password"
 							required
 						/>
-						<button type="button" class="toggle-pwd" onclick={() => showPassword = !showPassword}>
+						<button type="button" class="toggle-pwd" onclick={() => (showPassword = !showPassword)}>
 							{#if showPassword}<EyeOff size={15} />{:else}<Eye size={15} />{/if}
 						</button>
 					</div>
@@ -303,7 +306,9 @@
 		color: var(--color-text-primary);
 		font-size: 0.8125rem;
 		font-family: inherit;
-		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+		transition:
+			border-color var(--transition-fast),
+			box-shadow var(--transition-fast);
 		outline: none;
 	}
 
@@ -345,7 +350,9 @@
 		font-weight: 600;
 		font-family: inherit;
 		cursor: pointer;
-		transition: opacity var(--transition-fast), transform var(--transition-fast);
+		transition:
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
 		box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 	}
 

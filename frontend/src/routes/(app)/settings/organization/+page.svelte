@@ -18,7 +18,7 @@
 	function saveOrg(e: Event) {
 		e.preventDefault();
 		saved = true;
-		setTimeout(() => saved = false, 3000);
+		setTimeout(() => (saved = false), 3000);
 	}
 </script>
 
@@ -28,7 +28,9 @@
 	<header class="page-header">
 		<div>
 			<h1 class="page-title">Organization Profile & Compliance</h1>
-			<p class="page-subtitle">Manage company identification, statutory trade credentials, and registered office details</p>
+			<p class="page-subtitle">
+				Manage company identification, statutory trade credentials, and registered office details
+			</p>
 		</div>
 	</header>
 
@@ -93,23 +95,105 @@
 </div>
 
 <style>
-	.page-title { font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary); margin: 0; letter-spacing: -0.02em; }
-	.page-subtitle { font-size: 0.8125rem; color: var(--color-text-secondary); margin: 4px 0 0; }
-	.btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--radius-md); font-size: 0.8125rem; font-weight: 600; cursor: pointer; background: var(--color-accent); color: white; border: none; }
+	.page-title {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin: 0;
+		letter-spacing: -0.02em;
+	}
+	.page-subtitle {
+		font-size: 0.8125rem;
+		color: var(--color-text-secondary);
+		margin: 4px 0 0;
+	}
+	.btn-primary {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 8px 18px;
+		border-radius: var(--radius-md);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		background: var(--color-accent);
+		color: white;
+		border: none;
+	}
 
-	.settings-form { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; max-width: 840px; }
-	.card { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
-	.form-card { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-	.card-title { font-size: 0.9375rem; font-weight: 700; color: var(--color-text-primary); margin: 0; }
+	.settings-form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-top: 20px;
+		max-width: 840px;
+	}
+	.card {
+		background: var(--color-bg-secondary);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+	}
+	.form-card {
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+	.card-title {
+		font-size: 0.9375rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin: 0;
+	}
 
-	.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-	.form-grid.three-col { grid-template-columns: repeat(3, 1fr); }
-	@media (max-width: 768px) { .form-grid, .form-grid.three-col { grid-template-columns: 1fr; } }
+	.form-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+	.form-grid.three-col {
+		grid-template-columns: repeat(3, 1fr);
+	}
+	@media (max-width: 768px) {
+		.form-grid,
+		.form-grid.three-col {
+			grid-template-columns: 1fr;
+		}
+	}
 
-	.form-group { display: flex; flex-direction: column; gap: 6px; }
-	.form-group label { font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
-	.form-group input { padding: 8px 12px; background: var(--color-bg-primary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary); font-size: 0.8125rem; }
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.form-group label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--color-text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+	.form-group input {
+		padding: 8px 12px;
+		background: var(--color-bg-primary);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		color: var(--color-text-primary);
+		font-size: 0.8125rem;
+	}
 
-	.form-footer { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
-	.save-msg { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--color-success); font-weight: 600; }
+	.form-footer {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 12px;
+	}
+	.save-msg {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.8125rem;
+		color: var(--color-success);
+		font-weight: 600;
+	}
 </style>

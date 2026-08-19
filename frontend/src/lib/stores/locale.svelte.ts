@@ -64,7 +64,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
 		// Dashboard
 		'dashboard.welcome': 'Welcome back',
-		'dashboard.overview_subtitle': 'Here\'s what\'s happening with your business today.',
+		'dashboard.overview_subtitle': "Here's what's happening with your business today.",
 		'dashboard.ai_insights': 'AI Insights',
 		'dashboard.activity': 'Recent Activity',
 		'dashboard.view_all': 'View All',
@@ -99,7 +99,7 @@ const translations: Record<Locale, Record<string, string>> = {
 		'common.retry': 'Retry',
 		'common.showing': 'Showing',
 		'common.of': 'of',
-		'common.results': 'results',
+		'common.results': 'results'
 	},
 	bn: {
 		// Navigation
@@ -193,7 +193,7 @@ const translations: Record<Locale, Record<string, string>> = {
 		'common.retry': 'পুনরায় চেষ্টা',
 		'common.showing': 'দেখাচ্ছে',
 		'common.of': 'এর মধ্যে',
-		'common.results': 'ফলাফল',
+		'common.results': 'ফলাফল'
 	}
 };
 
@@ -208,8 +208,12 @@ function createLocaleStore() {
 	}
 
 	return {
-		get current() { return locale; },
-		get isBangla() { return locale === 'bn'; },
+		get current() {
+			return locale;
+		},
+		get isBangla() {
+			return locale === 'bn';
+		},
 
 		t(key: string): string {
 			return translations[locale]?.[key] ?? translations.en[key] ?? key;
