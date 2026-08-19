@@ -2,7 +2,7 @@
   Sales Analytics page — Revenue trends, top products, regional breakdown.
 -->
 <script lang="ts">
-	import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Target } from '@lucide/svelte';
+	import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Target, Download } from '@lucide/svelte';
 
 	const kpis = [
 		{ label: 'Total Revenue', value: '৳ 24.8M', change: '+12.5%', trend: 'up', icon: DollarSign, color: 'accent' },
@@ -51,6 +51,21 @@
 		if (v >= 1000) return `৳ ${(v / 1000).toFixed(0)}K`;
 		return `৳ ${v}`;
 	}
+
+	function exportAnalyticsCSV() {
+		const headers = 'Top_Product,Annual_Revenue_BDT,Units_Sold,Growth_Pct\n';
+		const rows = topProducts.map(p =>
+			`"${p.name}",${p.revenue},${p.units},${p.growth}%`
+		).join('\n');
+
+		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `sme_sales_analytics_${new Date().toISOString().split('T')[0]}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	}
 </script>
 
 <svelte:head>
@@ -64,6 +79,9 @@
 			<p class="page-subtitle">Revenue trends, top products, and regional performance</p>
 		</div>
 		<div class="header-actions">
+			<button class="btn-export" onclick={exportAnalyticsCSV}>
+				<Download size={16} /> Export
+			</button>
 			<select class="period-select">
 				<option>Last 12 Months</option>
 				<option>Last 6 Months</option>

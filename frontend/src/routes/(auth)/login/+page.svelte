@@ -1,16 +1,20 @@
 <!--
-  Login page — Premium glassmorphic login with demo mode support.
+  Login page — Real auth with demo mode as a separate path.
+  Real login: calls POST /api/v1/auth/login + fetches /api/v1/auth/me
+  Demo login: skips backend entirely, uses hardcoded demo profile
 -->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { authStore } from '$lib/stores/auth.svelte';
-	import { Eye, EyeOff, LogIn, Zap, BarChart3, Shield, Globe } from '@lucide/svelte';
+	import { api } from '$lib/services/api';
+	import { Eye, EyeOff, LogIn, Zap, BarChart3, Shield, Globe, FlaskConical } from '@lucide/svelte';
 
 	let email = $state('');
 	let password = $state('');
 	let showPassword = $state(false);
 	let isSubmitting = $state(false);
 	let errorMessage = $state('');
+	let loginMode = $state<'real' | 'demo'>('real');
 
 	async function handleLogin(e: Event) {
 		e.preventDefault();
@@ -23,15 +27,27 @@
 		errorMessage = '';
 
 		try {
-			// TODO: Replace with real API call when backend DB is connected
-			// const response = await api.post('/auth/login', { email, password });
-			// authStore.login(response.data.access_token, response.data.refresh_token, response.data.user);
+			// Call real backend API
+			const tokenRes = await api.post<{ data: { access_token: string; refresh_token: string } }>(
+				'/auth/login',
+				{ email, password }
+			);
+			const { access_token, refresh_token } = (tokenRes as any).data;
 
-			// For now, demo login with form values
-			authStore.loginDemo();
+			// Fetch full user profile
+			const meRes = await api.get<{ data: any }>('/auth/me');
+			const userProfile = (meRes as any).data;
+
+			authStore.login(access_token, refresh_token, userProfile);
 			await goto('/dashboard');
 		} catch (err: any) {
-			errorMessage = err.message || 'Login failed. Please try again.';
+			if (err.status === 401 || err.status === 422) {
+				errorMessage = 'Invalid email or password. Please try again.';
+			} else if (err.status === 0 || !err.status) {
+				errorMessage = 'Cannot reach the server. Check your connection or try Demo Mode.';
+			} else {
+				errorMessage = err.message || 'Login failed. Please try again.';
+			}
 		} finally {
 			isSubmitting = false;
 		}

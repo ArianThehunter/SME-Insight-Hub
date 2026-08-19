@@ -1,9 +1,10 @@
 <!--
-  Register page — Create new account and organization.
+  Register page — Create new account and organization. Calls real backend API.
 -->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { authStore } from '$lib/stores/auth.svelte';
+	import { api } from '$lib/services/api';
 	import { Eye, EyeOff, UserPlus, Zap, ArrowLeft } from '@lucide/svelte';
 
 	let fullName = $state('');
@@ -25,16 +26,41 @@
 			errorMessage = 'Password must be at least 8 characters.';
 			return;
 		}
+		if (!orgName.trim()) {
+			errorMessage = 'Please enter your organization name.';
+			return;
+		}
 
 		isSubmitting = true;
 		errorMessage = '';
 
 		try {
-			// TODO: Replace with real API call
-			authStore.loginDemo();
+			// Call real backend API
+			const tokenRes = await api.post<{ data: { access_token: string; refresh_token: string } }>(
+				'/auth/register',
+				{
+					full_name: fullName,
+					email,
+					password,
+					organization_name: orgName,
+				}
+			);
+			const { access_token, refresh_token } = (tokenRes as any).data;
+
+			// Fetch full user profile
+			const meRes = await api.get<{ data: any }>('/auth/me');
+			const userProfile = (meRes as any).data;
+
+			authStore.login(access_token, refresh_token, userProfile);
 			await goto('/dashboard');
 		} catch (err: any) {
-			errorMessage = err.message || 'Registration failed.';
+			if (err.status === 409 || err.status === 422) {
+				errorMessage = err.message || 'An account with this email already exists.';
+			} else if (!err.status) {
+				errorMessage = 'Cannot reach server. Please check your connection.';
+			} else {
+				errorMessage = err.message || 'Registration failed. Please try again.';
+			}
 		} finally {
 			isSubmitting = false;
 		}

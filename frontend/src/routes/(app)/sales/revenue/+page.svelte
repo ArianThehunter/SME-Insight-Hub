@@ -2,7 +2,7 @@
   Revenue page — Monthly comparisons, revenue by category, growth metrics.
 -->
 <script lang="ts">
-	import { TrendingUp, TrendingDown, ArrowUpRight, CalendarDays } from '@lucide/svelte';
+	import { TrendingUp, TrendingDown, ArrowUpRight, CalendarDays, Download } from '@lucide/svelte';
 
 	const revenueMonths = [
 		{ month: 'Jan 2026', revenue: 1820000, prevYear: 1540000 },
@@ -37,6 +37,21 @@
 		if (v >= 1000) return `৳ ${(v / 1000).toFixed(0)}K`;
 		return `৳ ${v}`;
 	}
+
+	function exportRevenueCSV() {
+		const headers = 'Month,Current_Year_Revenue_BDT,Previous_Year_Revenue_BDT,YoY_Growth_Pct\n';
+		const rows = revenueMonths.map(r =>
+			`"${r.month}",${r.revenue},${r.prevYear},${(((r.revenue - r.prevYear) / r.prevYear) * 100).toFixed(1)}%`
+		).join('\n');
+
+		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `sme_revenue_report_${new Date().toISOString().split('T')[0]}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	}
 </script>
 
 <svelte:head><title>Revenue — SME Insight Hub</title></svelte:head>
@@ -47,6 +62,9 @@
 			<h1 class="page-title">Revenue Analytics</h1>
 			<p class="page-subtitle">Monthly comparisons, category breakdown, and growth metrics</p>
 		</div>
+		<button class="btn-create" onclick={exportRevenueCSV}>
+			<Download size={16} /> Export Revenue Data
+		</button>
 	</header>
 
 	<!-- Growth Cards -->

@@ -57,17 +57,28 @@ class Settings(BaseSettings):
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     ]
 
+    # ── Redis (Upstash or local) ─────────────────────────────────
+    REDIS_URL: str = "redis://localhost:6379/0"
+
+    # ── Supabase Storage (optional — falls back to local uploads) ─
+    SUPABASE_URL: str = ""
+    SUPABASE_SERVICE_KEY: str = ""
+    SUPABASE_STORAGE_BUCKET: str = "sme-documents"
+
     # ── OCR ──────────────────────────────────────────────────────
     TESSERACT_CMD: str = "tesseract"
     OCR_LANGUAGE: str = "eng+ben"
+
 
     # ── Rate Limiting ────────────────────────────────────────────
     RATE_LIMIT_DEFAULT: str = "100/minute"
     RATE_LIMIT_AUTH: str = "10/minute"
 
-    # ── Logging ──────────────────────────────────────────────────
+    # ── Logging & Error Tracking ─────────────────────────────────
     LOG_LEVEL: str = "INFO"
     LOG_FORMAT: str = "json"
+    SENTRY_DSN: str = ""
+    SENTRY_TRACES_SAMPLE_RATE: float = 0.1
 
     @property
     def database_url_sync(self) -> str:

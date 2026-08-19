@@ -2,7 +2,7 @@
   Cash Flow page — Visualizations and summaries of inflows, outflows, and net cash balances.
 -->
 <script lang="ts">
-	import { TrendingUp, ArrowUpRight, ArrowDownRight, DollarSign, Wallet, Calendar, ShieldCheck } from '@lucide/svelte';
+	import { TrendingUp, ArrowUpRight, ArrowDownRight, DollarSign, Wallet, Calendar, ShieldCheck, Download } from '@lucide/svelte';
 
 	const cashFlowData = [
 		{ month: 'Jan 2026', inflow: 450000, outflow: 380000, balance: 800000 },
@@ -12,6 +12,21 @@
 		{ month: 'May 2026', inflow: 680000, outflow: 520000, balance: 1260000 },
 		{ month: 'Jun 2026', inflow: 720000, outflow: 550000, balance: 1430000 },
 	];
+
+	function exportCashflowCSV() {
+		const headers = 'Month,Inflow_BDT,Outflow_BDT,Net_Cash_Flow_BDT,Cumulative_Balance_BDT\n';
+		const rows = cashFlowData.map(d =>
+			`"${d.month}",${d.inflow},${d.outflow},${d.inflow - d.outflow},${d.balance}`
+		).join('\n');
+
+		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `sme_cashflow_statement_${new Date().toISOString().split('T')[0]}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	}
 
 	// Extract current metrics
 	const currentMonth = cashFlowData[cashFlowData.length - 1];
@@ -54,6 +69,9 @@
 			<h1 class="page-title">Cash Flow Analytics</h1>
 			<p class="page-subtitle">Track liquid assets, cash runway, inflows, and operational cash burns</p>
 		</div>
+		<button class="btn-create" onclick={exportCashflowCSV}>
+			<Download size={16} /> Export Statement
+		</button>
 	</header>
 
 	<!-- KPI Grid -->
@@ -188,7 +206,6 @@
 	.summary-val { font-size: 1.375rem; font-weight: 700; color: var(--color-text-primary); display: flex; align-items: center; gap: 4px; }
 	.summary-val.text-success { color: var(--color-success); }
 	.summary-label { font-size: 0.6875rem; color: var(--color-text-tertiary); }
-	.inline-icon { color: var(--color-success); }
 
 	.charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 	@media (max-width: 992px) { .charts-grid { grid-template-columns: 1fr; } }

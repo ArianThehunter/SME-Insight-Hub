@@ -127,11 +127,13 @@ class User(BaseModel):
     )
 
     def has_permission(self, resource: str, action: str) -> bool:
-        """Check if user's role has a specific permission."""
-        if self.role.name == "super_admin":
+        """Check if user's role has a specific permission with wildcard support."""
+        if not self.role:
+            return False
+        if self.role.name in ("super_admin", "org_owner"):
             return True
         return any(
-            p.resource == resource and p.action == action
+            (p.resource in (resource, "*")) and (p.action in (action, "*"))
             for p in self.role.permissions
         )
 

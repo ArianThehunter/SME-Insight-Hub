@@ -179,6 +179,22 @@
 		};
 		return map[type] ?? 'var(--color-text-tertiary)';
 	}
+	function exportDashboardCSV() {
+		const headers = 'Metric_ID,Title_EN,Title_BN,Current_Value,Growth_Rate,Trend_Direction\n';
+		const rows = kpis.map(k =>
+			`"${k.id}","${k.title}","${k.titleBn}","${k.formatted}",${k.change}%,"${k.direction}"`
+		).join('\n');
+
+		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `sme_executive_dashboard_${new Date().toISOString().split('T')[0]}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	}
+
+	let selectedRange = $state('30d');
 </script>
 
 <svelte:head>
@@ -196,13 +212,15 @@
 			<p class="page-subtitle">{localeStore.t('dashboard.overview_subtitle')}</p>
 		</div>
 		<div class="header-actions">
-			<button class="btn-outline">
-				<Activity size={16} />
-				Last 30 days
-			</button>
-			<button class="btn-primary">
+			<select bind:value={selectedRange} class="btn-outline">
+				<option value="7d">Last 7 days</option>
+				<option value="30d">Last 30 days</option>
+				<option value="90d">Last quarter (90d)</option>
+				<option value="1y">Last 12 months</option>
+			</select>
+			<button class="btn-primary" onclick={exportDashboardCSV}>
 				<ExternalLink size={16} />
-				Export
+				Export Summary
 			</button>
 		</div>
 	</header>
@@ -1016,6 +1034,7 @@
 		line-height: 1.5;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

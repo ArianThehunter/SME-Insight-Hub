@@ -1,1 +1,2 @@
-# Sales module
+# Sales domain
+# module

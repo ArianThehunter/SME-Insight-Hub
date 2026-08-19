@@ -32,7 +32,7 @@
 
 <svelte:window onclick={closeMenus} />
 
-<header class="topnav" role="banner">
+<header class="topnav">
 	<div class="topnav-left">
 		<!-- Mobile menu toggle -->
 		<button class="mobile-menu-btn" onclick={() => sidebarStore.toggleMobile()} aria-label="Toggle menu">
@@ -100,7 +100,7 @@
 				onclick={(e: MouseEvent) => { e.stopPropagation(); showNotifications = !showNotifications; showUserMenu = false; }}
 				title={localeStore.t('action.notifications')}
 				aria-label="Notifications"
-				aria-haspopup="true"
+				aria-haspopup="dialog"
 				aria-expanded={showNotifications}
 			>
 				<Bell size={18} />
@@ -108,7 +108,14 @@
 			</button>
 
 			{#if showNotifications}
-				<div class="dropdown notification-dropdown" role="menu" onclick={(e: MouseEvent) => e.stopPropagation()}>
+				<div
+					class="dropdown notification-dropdown"
+					role="dialog"
+					aria-label="Notifications"
+					tabindex="-1"
+					onclick={(e: MouseEvent) => e.stopPropagation()}
+					onkeydown={(e: KeyboardEvent) => e.stopPropagation()}
+				>
 					<div class="dropdown-header">
 						<h3>Notifications</h3>
 						<button class="mark-read">Mark all read</button>
@@ -144,7 +151,7 @@
 			<button
 				class="user-menu-trigger"
 				onclick={(e: MouseEvent) => { e.stopPropagation(); showUserMenu = !showUserMenu; showNotifications = false; }}
-				aria-haspopup="true"
+				aria-haspopup="menu"
 				aria-expanded={showUserMenu}
 			>
 				<div class="user-avatar">
@@ -158,7 +165,13 @@
 			</button>
 
 			{#if showUserMenu}
-				<div class="dropdown user-dropdown" role="menu" onclick={(e: MouseEvent) => e.stopPropagation()}>
+				<div
+					class="dropdown user-dropdown"
+					role="menu"
+					tabindex="-1"
+					onclick={(e: MouseEvent) => e.stopPropagation()}
+					onkeydown={(e: KeyboardEvent) => e.stopPropagation()}
+				>
 					<a href="/settings/profile" class="dropdown-item" role="menuitem">
 						<User size={16} />
 						<span>Profile</span>

@@ -22,12 +22,29 @@ from src.middleware.logging import RequestLoggingMiddleware
 
 settings = get_settings()
 
-# ── Logging Configuration ────────────────────────────────────────
+# ── Logging & Observability ───────────────────────────────────────
 logging.basicConfig(
     level=getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger("sme_insight_hub")
+
+# Initialize Sentry Error Tracking if DSN provided
+if settings.SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
+    from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        environment=settings.ENVIRONMENT,
+        traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+        integrations=[
+            FastApiIntegration(transaction_style="endpoint"),
+            SqlalchemyIntegration(),
+        ],
+    )
+    logger.info("🛡️ Sentry error tracking and telemetry initialized")
 
 # ── Rate Limiter ──────────────────────────────────────────────────
 limiter = Limiter(key_func=get_remote_address, default_limits=[settings.RATE_LIMIT_DEFAULT])
@@ -100,9 +117,17 @@ def create_app() -> FastAPI:
     # ── Routers ───────────────────────────────────────────────
     from src.auth.router import router as auth_router
     from src.analytics.router import router as analytics_router
+    from src.sales.router import router as sales_router
+    from src.finance.router import router as finance_router
+    from src.documents.router import router as documents_router
 
     app.include_router(auth_router, prefix=settings.API_PREFIX)
     app.include_router(analytics_router, prefix=settings.API_PREFIX)
+    app.include_router(sales_router, prefix=settings.API_PREFIX)
+    app.include_router(finance_router, prefix=settings.API_PREFIX)
+    app.include_router(documents_router, prefix=settings.API_PREFIX)
+
+
 
     # ── Health Check ──────────────────────────────────────────
     @app.get("/health", tags=["Health"])

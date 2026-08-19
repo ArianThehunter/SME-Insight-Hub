@@ -7,7 +7,9 @@ python-multipart==0.0.20
 # Database
 sqlalchemy[asyncio]==2.0.41
 asyncpg==0.30.0
+psycopg2-binary==2.9.10
 alembic==1.15.2
+python-dotenv==1.1.1
 
 # Authentication & Security
 pyjwt==2.10.1
@@ -44,6 +46,9 @@ httpx==0.28.1
 # Utilities
 python-dateutil==2.9.0
 faker==37.3.0
+
+# Error Tracking & Observability
+sentry-sdk==2.22.0
 
 # Type checking
 mypy==1.16.0

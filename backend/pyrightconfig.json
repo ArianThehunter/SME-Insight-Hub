@@ -1,0 +1,16 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": [
+    ".",
+    "src",
+    ".venv/Lib/site-packages"
+  ],
+  "include": [
+    "."
+  ],
+  "exclude": [
+    ".venv",
+    "**/__pycache__"
+  ]
+}

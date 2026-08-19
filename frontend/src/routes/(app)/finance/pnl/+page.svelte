@@ -2,7 +2,7 @@
   Profit & Loss (P&L) Statement page — Structured income statement with margins, expenses, and net profit.
 -->
 <script lang="ts">
-	import { Search, Calendar, FileText, ArrowRightLeft, Percent, Calculator, ArrowUpRight, ArrowDownRight } from '@lucide/svelte';
+	import { Search, Calendar, FileText, ArrowRightLeft, Percent, Calculator, ArrowUpRight, ArrowDownRight, Download } from '@lucide/svelte';
 
 	let period = $state('june-2026');
 
@@ -62,6 +62,34 @@
 		netIncome: (((currentData.revenue.total - currentData.cogs.total) - currentData.opex.total) - currentData.depreciation) - currentData.tax,
 		netMargin: (((((currentData.revenue.total - currentData.cogs.total) - currentData.opex.total) - currentData.depreciation) - currentData.tax) / currentData.revenue.total * 100).toFixed(1),
 	});
+
+	function exportPnlCSV() {
+		const headers = 'Line_Item,Amount_BDT\n';
+		const rows = [
+			`"Gross Revenue (Retail)",${currentData.revenue.retail}`,
+			`"Gross Revenue (Wholesale)",${currentData.revenue.wholesale}`,
+			`"Total Revenue",${currentData.revenue.total}`,
+			`"COGS (Raw Materials)",${currentData.cogs.materials}`,
+			`"COGS (Direct Labor)",${currentData.cogs.labor}`,
+			`"Gross Profit",${calculations.grossProfit}`,
+			`"OPEX (Rent & Facilities)",${currentData.opex.rent}`,
+			`"OPEX (Marketing)",${currentData.opex.marketing}`,
+			`"OPEX (Logistics)",${currentData.opex.logistics}`,
+			`"OPEX (Payroll)",${currentData.opex.salaries}`,
+			`"Operating Income (EBITDA)",${calculations.ebitda}`,
+			`"Depreciation",${currentData.depreciation}`,
+			`"Estimated NBR Tax",${currentData.tax}`,
+			`"Net Income",${calculations.netIncome}`,
+		].join('\n');
+
+		const blob = new Blob(['\uFEFF' + headers + rows], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `sme_pnl_statement_${period}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	}
 </script>
 
 <svelte:head><title>P&L Statement — SME Insight Hub</title></svelte:head>
@@ -77,6 +105,9 @@
 				<option value="june-2026">June 2026 (MTD)</option>
 				<option value="q2-2026">Q2 2026 (Quarterly)</option>
 			</select>
+			<button class="btn-create" onclick={exportPnlCSV}>
+				<Download size={16} /> Export Statement
+			</button>
 		</div>
 	</header>
 
