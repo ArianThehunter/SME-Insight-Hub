@@ -1,0 +1,10 @@
+node_modules
+.svelte-kit
+build
+.vercel
+.git
+.env
+.env.local
+.DS_Store
+Thumbs.db
+npm-debug.log
