@@ -7,8 +7,7 @@ import csv
 import io
 import os
 import uuid
-from datetime import datetime, timezone
-from typing import List, Optional
+from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
 from fastapi.responses import StreamingResponse
@@ -27,9 +26,8 @@ from src.documents.schemas import (
     DocumentDetailResponse,
     DocumentListResponse,
     DocumentUploadResponse,
-    ExtractionResultResponse,
 )
-from src.sales.models import Document, ExtractionResult
+from src.sales.models import Document
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 settings = get_settings()
@@ -48,7 +46,7 @@ ALLOWED_TYPES = {
 async def _save_file(file: UploadFile, upload_dir: str) -> tuple[str, str, int]:
     """Save an uploaded file to disk. Returns (stored_filename, file_path, size)."""
     os.makedirs(upload_dir, exist_ok=True)
-    ext = ALLOWED_TYPES.get(file.content_type, "bin")
+    ext = ALLOWED_TYPES.get(file.content_type or "", "bin")
     stored_name = f"{uuid.uuid4().hex}.{ext}"
     file_path = os.path.join(upload_dir, stored_name)
 
@@ -119,8 +117,8 @@ async def upload_document(
     summary="List uploaded documents",
 )
 async def list_documents(
-    document_type: Optional[DocumentType] = Query(None),
-    status_filter: Optional[str] = Query(None, alias="status"),
+    document_type: DocumentType | None = Query(None),
+    status_filter: str | None = Query(None, alias="status"),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
@@ -212,7 +210,7 @@ async def process_document(
         else:
             doc.status = DocumentStatus.OCR_COMPLETE.value
 
-        doc.processed_at = datetime.now(timezone.utc)
+        doc.processed_at = datetime.now(UTC)
         await db.flush()
 
     except Exception as e:
@@ -374,7 +372,7 @@ async def import_csv(
             rows = []
             for row in ws.iter_rows(min_row=2, values_only=True):
                 if any(cell is not None for cell in row):
-                    rows.append(dict(zip(headers, row)))
+                    rows.append(dict(zip(headers, row, strict=False)))
 
         for i, row in enumerate(rows, start=2):
             rows_processed += 1
@@ -402,8 +400,9 @@ async def import_csv(
                     rows_inserted += 1
 
                 elif data_type == "expenses":
-                    from src.sales.models import Expense
                     from datetime import date
+
+                    from src.sales.models import Expense
                     expense_date_str = row.get("expense_date", "")
                     try:
                         expense_date = date.fromisoformat(str(expense_date_str))
@@ -438,7 +437,7 @@ async def import_csv(
             await db.flush()
 
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to parse file: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Failed to parse file: {e!s}") from e
 
     return SuccessResponse(
         message=f"Import complete: {rows_inserted} inserted, {rows_processed - rows_inserted} failed",

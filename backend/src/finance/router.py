@@ -6,7 +6,6 @@ All data is org-scoped with multi-tenancy.
 import uuid
 from datetime import date
 from decimal import Decimal
-from typing import Optional
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import func, select
@@ -35,9 +34,9 @@ router = APIRouter(prefix="/finance", tags=["Finance"])
 
 @router.get("/expenses", response_model=SuccessResponse[PaginatedResponse[ExpenseResponse]])
 async def list_expenses(
-    category: Optional[str] = Query(None),
-    start_date: Optional[date] = Query(None),
-    end_date: Optional[date] = Query(None),
+    category: str | None = Query(None),
+    start_date: date | None = Query(None),
+    end_date: date | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
@@ -130,8 +129,8 @@ async def delete_expense(
 
 @router.get("/invoices", response_model=SuccessResponse[PaginatedResponse[InvoiceResponse]])
 async def list_invoices(
-    status_filter: Optional[str] = Query(None, alias="status"),
-    customer_id: Optional[uuid.UUID] = Query(None),
+    status_filter: str | None = Query(None, alias="status"),
+    customer_id: uuid.UUID | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
@@ -178,7 +177,7 @@ async def create_invoice(
         org_id=user.org_id,
         invoice_number=invoice_number,
         total_amount=total_amount,
-        amount_paid=Decimal("0"),
+        amount_paid=Decimal(0),
         **inv_data,
     )
     db.add(invoice)
@@ -213,8 +212,8 @@ async def update_invoice_status(
 
     if data.status:
         invoice.status = data.status
-    if data.paid_amount is not None:
-        invoice.paid_amount = data.paid_amount
+    if data.amount_paid is not None:
+        invoice.amount_paid = data.amount_paid
 
     await db.flush()
     return SuccessResponse(message="Invoice status updated", data=InvoiceResponse.model_validate(invoice))
@@ -256,7 +255,7 @@ async def get_finance_overview(
     revenue = Decimal(str(total_rev or 0))
     expenses = Decimal(str(total_exp or 0))
     net_profit = revenue - expenses
-    profit_margin = (net_profit / revenue * 100) if revenue > 0 else Decimal("0")
+    profit_margin = (net_profit / revenue * 100) if revenue > 0 else Decimal(0)
 
     # Invoices stats
     outstanding_res = await db.execute(

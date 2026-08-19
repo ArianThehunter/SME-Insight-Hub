@@ -3,10 +3,9 @@ Auth domain — FastAPI dependencies for authentication and authorization.
 """
 
 import uuid
-from typing import List, Optional
 
 import jwt
-from fastapi import Depends, Header, HTTPException, status
+from fastapi import Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.models import User
@@ -18,7 +17,7 @@ from src.database import get_db
 
 
 async def get_current_user(
-    authorization: Optional[str] = Header(None, alias="Authorization"),
+    authorization: str | None = Header(None, alias="Authorization"),
     db: AsyncSession = Depends(get_db),
 ) -> User:
     """
@@ -34,10 +33,10 @@ async def get_current_user(
         payload = decode_token(token)
         if not verify_token_type(payload, "access"):
             raise AuthenticationError("Invalid token type")
-    except jwt.ExpiredSignatureError:
-        raise AuthenticationError("Token has expired")
-    except jwt.InvalidTokenError:
-        raise AuthenticationError("Invalid token")
+    except jwt.ExpiredSignatureError as exc:
+        raise AuthenticationError("Token has expired") from exc
+    except jwt.InvalidTokenError as exc:
+        raise AuthenticationError("Invalid token") from exc
 
     user_id = uuid.UUID(payload["sub"])
     auth_service = AuthService(db)

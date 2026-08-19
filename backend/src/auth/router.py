@@ -2,13 +2,12 @@
 Auth domain — API endpoints for authentication.
 """
 
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.dependencies import get_current_user
 from src.auth.models import User
 from src.auth.schemas import (
-    AuthInfoResponse,
     LoginRequest,
     OrganizationBriefResponse,
     RefreshTokenRequest,

@@ -4,7 +4,6 @@ All endpoints require authentication. All data is org-scoped.
 """
 
 import uuid
-from typing import Optional
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,11 +13,18 @@ from src.auth.models import User
 from src.common.schemas import PaginatedResponse, SuccessResponse
 from src.database import get_db
 from src.sales.schemas import (
-    CustomerCreate, CustomerResponse, CustomerUpdate,
-    OrderCreate, OrderResponse,
-    ProductCreate, ProductResponse, ProductUpdate,
-    SupplierCreate, SupplierResponse,
-    WarehouseCreate, WarehouseResponse,
+    CustomerCreate,
+    CustomerResponse,
+    CustomerUpdate,
+    OrderCreate,
+    OrderResponse,
+    ProductCreate,
+    ProductResponse,
+    ProductUpdate,
+    SupplierCreate,
+    SupplierResponse,
+    WarehouseCreate,
+    WarehouseResponse,
 )
 from src.sales.service import SalesService
 
@@ -33,8 +39,8 @@ def _svc(db: AsyncSession, user: User) -> SalesService:
 
 @router.get("/customers", response_model=SuccessResponse[PaginatedResponse[CustomerResponse]])
 async def list_customers(
-    search: Optional[str] = Query(None),
-    segment: Optional[str] = Query(None),
+    search: str | None = Query(None),
+    segment: str | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
@@ -94,8 +100,8 @@ async def delete_customer(
 
 @router.get("/products", response_model=SuccessResponse[PaginatedResponse[ProductResponse]])
 async def list_products(
-    search: Optional[str] = Query(None),
-    category: Optional[str] = Query(None),
+    search: str | None = Query(None),
+    category: str | None = Query(None),
     low_stock: bool = Query(False),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
@@ -135,8 +141,8 @@ async def update_product(
 
 @router.get("/orders", response_model=SuccessResponse[PaginatedResponse[OrderResponse]])
 async def list_orders(
-    status_filter: Optional[str] = Query(None, alias="status"),
-    customer_id: Optional[uuid.UUID] = Query(None),
+    status_filter: str | None = Query(None, alias="status"),
+    customer_id: uuid.UUID | None = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),

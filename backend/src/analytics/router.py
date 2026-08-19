@@ -4,15 +4,13 @@ Serves both real (from DB) and demo data for showcasing.
 """
 
 import random
-import uuid
-from datetime import date, datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from datetime import UTC, date, datetime, timedelta
+from typing import Any
 
 # pyrefly: ignore [missing-import]
 from fastapi import APIRouter, Depends, Query
-# pyrefly: ignore [missing-import]
-from pydantic import BaseModel
 
+# pyrefly: ignore [missing-import]
 from src.auth.dependencies import get_current_user
 from src.auth.models import User
 from src.common.schemas import BaseSchema, SuccessResponse
@@ -25,13 +23,13 @@ class KPICard(BaseSchema):
     """Single KPI metric card data."""
     id: str
     title: str
-    title_bn: Optional[str] = None
+    title_bn: str | None = None
     value: float
     formatted_value: str
     change_percent: float
     change_direction: str  # "up", "down", "neutral"
-    trend_data: List[float] = []
-    currency: Optional[str] = None
+    trend_data: list[float] = []
+    currency: str | None = None
     icon: str
     color: str
 
@@ -40,23 +38,23 @@ class ChartData(BaseSchema):
     """Chart data with labels and datasets."""
     id: str
     title: str
-    title_bn: Optional[str] = None
+    title_bn: str | None = None
     chart_type: str
-    labels: List[str]
-    datasets: List[Dict[str, Any]]
+    labels: list[str]
+    datasets: list[dict[str, Any]]
 
 
 class AIInsight(BaseSchema):
     """AI-generated business insight."""
     id: str
     title: str
-    title_bn: Optional[str] = None
+    title_bn: str | None = None
     description: str
-    description_bn: Optional[str] = None
+    description_bn: str | None = None
     severity: str  # "info", "success", "warning", "critical"
     category: str
-    action_url: Optional[str] = None
-    metric_value: Optional[str] = None
+    action_url: str | None = None
+    metric_value: str | None = None
     icon: str
 
 
@@ -64,26 +62,26 @@ class ActivityItem(BaseSchema):
     """Activity feed item."""
     id: str
     title: str
-    title_bn: Optional[str] = None
+    title_bn: str | None = None
     description: str
     type: str  # "invoice", "report", "customer", "stock", "user", "alert"
     icon: str
     timestamp: datetime
-    user_name: Optional[str] = None
-    url: Optional[str] = None
+    user_name: str | None = None
+    url: str | None = None
 
 
 class DashboardResponse(BaseSchema):
     """Complete dashboard data."""
-    kpis: List[KPICard]
-    charts: List[ChartData]
-    insights: List[AIInsight]
-    activities: List[ActivityItem]
-    summary: Dict[str, Any]
+    kpis: list[KPICard]
+    charts: list[ChartData]
+    insights: list[AIInsight]
+    activities: list[ActivityItem]
+    summary: dict[str, Any]
 
 
 # ── Demo Data Generator ──────────────────────────────────────────
-def _generate_sparkline(base: float, variance: float = 0.1, points: int = 12) -> List[float]:
+def _generate_sparkline(base: float, variance: float = 0.1, points: int = 12) -> list[float]:
     """Generate a realistic sparkline trend."""
     data = [base]
     for _ in range(points - 1):
@@ -92,7 +90,7 @@ def _generate_sparkline(base: float, variance: float = 0.1, points: int = 12) ->
     return data
 
 
-def _generate_months(count: int = 12) -> List[str]:
+def _generate_months(count: int = 12) -> list[str]:
     """Generate month labels for the last N months."""
     today = date.today()
     months = []
@@ -102,7 +100,7 @@ def _generate_months(count: int = 12) -> List[str]:
     return months
 
 
-def _get_demo_kpis() -> List[KPICard]:
+def _get_demo_kpis() -> list[KPICard]:
     """Generate demo KPI data."""
     return [
         KPICard(
@@ -164,7 +162,7 @@ def _get_demo_kpis() -> List[KPICard]:
     ]
 
 
-def _get_demo_charts() -> List[ChartData]:
+def _get_demo_charts() -> list[ChartData]:
     """Generate demo chart data."""
     months = _generate_months()
 
@@ -277,7 +275,7 @@ def _get_demo_charts() -> List[ChartData]:
     ]
 
 
-def _get_demo_insights() -> List[AIInsight]:
+def _get_demo_insights() -> list[AIInsight]:
     """Generate AI business insights."""
     return [
         AIInsight(
@@ -337,9 +335,9 @@ def _get_demo_insights() -> List[AIInsight]:
     ]
 
 
-def _get_demo_activities() -> List[ActivityItem]:
+def _get_demo_activities() -> list[ActivityItem]:
     """Generate demo activity feed."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     return [
         ActivityItem(
             id="act_1", title="New Invoice Uploaded",
@@ -439,7 +437,7 @@ async def get_dashboard_overview(
 
 @router.get(
     "/kpis",
-    response_model=SuccessResponse[List[KPICard]],
+    response_model=SuccessResponse[list[KPICard]],
     summary="Get KPI cards data",
 )
 async def get_kpis(
@@ -470,7 +468,7 @@ async def get_chart_data(
 
 @router.get(
     "/insights",
-    response_model=SuccessResponse[List[AIInsight]],
+    response_model=SuccessResponse[list[AIInsight]],
     summary="Get AI business insights",
 )
 async def get_insights(
@@ -482,7 +480,7 @@ async def get_insights(
 
 @router.get(
     "/activities",
-    response_model=SuccessResponse[List[ActivityItem]],
+    response_model=SuccessResponse[list[ActivityItem]],
     summary="Get recent activity feed",
 )
 async def get_activities(

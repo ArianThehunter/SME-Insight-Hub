@@ -1,0 +1,26 @@
+# Ruff configuration for FastAPI backend
+target-version = "py312"
+line-length = 120
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    "B008",   # Do not perform function calls in argument defaults (FastAPI Depends/Query pattern)
+    "RUF012", # Mutable default values in class definitions (Pydantic / dataclass fields)
+    "E501",   # Line too long (managed by formatter)
+    "B006",   # Do not use mutable data structures for argument defaults
+    "C901",   # Function is too complex
+    "B905",   # zip() without explicit strict= parameter
+]
+
+[lint.isort]
+known-first-party = ["src"]

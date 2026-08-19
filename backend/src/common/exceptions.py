@@ -2,7 +2,7 @@
 Custom exception hierarchy and FastAPI exception handlers.
 """
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
@@ -16,7 +16,7 @@ class AppException(Exception):
         self,
         message: str = "An unexpected error occurred",
         status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail: Optional[Dict[str, Any]] = None,
+        detail: dict[str, Any] | None = None,
     ):
         self.message = message
         self.status_code = status_code
@@ -73,7 +73,7 @@ class AuthorizationError(AppException):
 class ValidationError(AppException):
     """Validation failed."""
 
-    def __init__(self, message: str = "Validation error", errors: Optional[Dict] = None):
+    def __init__(self, message: str = "Validation error", errors: dict | None = None):
         super().__init__(
             message=message,
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

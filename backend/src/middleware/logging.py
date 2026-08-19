@@ -50,6 +50,6 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             duration = time.time() - start_time
             logger.error(
                 f"[{request_id}] {request.method} {request.url.path} "
-                f"- Error: {str(exc)} - Duration: {duration:.3f}s"
+                f"- Error: {exc!s} - Duration: {duration:.3f}s"
             )
             raise

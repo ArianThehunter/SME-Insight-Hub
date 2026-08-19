@@ -4,6 +4,7 @@ SME Insight Hub — FastAPI Application Entry Point.
 
 import logging
 from contextlib import asynccontextmanager
+from typing import Any, cast
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,13 +12,13 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from src.config import get_settings
 from src.common.exceptions import (
     AppException,
     app_exception_handler,
     generic_exception_handler,
     http_exception_handler,
 )
+from src.config import get_settings
 from src.middleware.logging import RequestLoggingMiddleware
 
 settings = get_settings()
@@ -107,19 +108,19 @@ def create_app() -> FastAPI:
 
     # Rate limiter
     app.state.limiter = limiter
-    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+    app.add_exception_handler(RateLimitExceeded, cast(Any, _rate_limit_exceeded_handler))
 
     # ── Exception Handlers ────────────────────────────────────
-    app.add_exception_handler(AppException, app_exception_handler)
-    app.add_exception_handler(HTTPException, http_exception_handler)
-    app.add_exception_handler(Exception, generic_exception_handler)
+    app.add_exception_handler(AppException, cast(Any, app_exception_handler))
+    app.add_exception_handler(HTTPException, cast(Any, http_exception_handler))
+    app.add_exception_handler(Exception, cast(Any, generic_exception_handler))
 
     # ── Routers ───────────────────────────────────────────────
-    from src.auth.router import router as auth_router
     from src.analytics.router import router as analytics_router
-    from src.sales.router import router as sales_router
-    from src.finance.router import router as finance_router
+    from src.auth.router import router as auth_router
     from src.documents.router import router as documents_router
+    from src.finance.router import router as finance_router
+    from src.sales.router import router as sales_router
 
     app.include_router(auth_router, prefix=settings.API_PREFIX)
     app.include_router(analytics_router, prefix=settings.API_PREFIX)

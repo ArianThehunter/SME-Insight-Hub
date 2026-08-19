@@ -3,8 +3,8 @@ Security utilities: password hashing, JWT token creation and validation.
 """
 
 import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional
+from datetime import UTC, datetime, timedelta
+from typing import Any
 
 import bcrypt
 import jwt
@@ -34,10 +34,10 @@ def create_access_token(
     user_id: uuid.UUID,
     org_id: uuid.UUID,
     role: str,
-    extra_claims: Optional[Dict[str, Any]] = None,
+    extra_claims: dict[str, Any] | None = None,
 ) -> str:
     """Create a JWT access token."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     payload = {
         "sub": str(user_id),
         "org_id": str(org_id),
@@ -55,7 +55,7 @@ def create_access_token(
 
 def create_refresh_token(user_id: uuid.UUID) -> str:
     """Create a JWT refresh token."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     payload = {
         "sub": str(user_id),
         "type": "refresh",
@@ -66,7 +66,7 @@ def create_refresh_token(user_id: uuid.UUID) -> str:
     return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
 
-def decode_token(token: str) -> Dict[str, Any]:
+def decode_token(token: str) -> dict[str, Any]:
     """
     Decode and validate a JWT token.
     Raises jwt.InvalidTokenError on failure.
@@ -78,6 +78,6 @@ def decode_token(token: str) -> Dict[str, Any]:
     )
 
 
-def verify_token_type(token_data: Dict[str, Any], expected_type: str) -> bool:
+def verify_token_type(token_data: dict[str, Any], expected_type: str) -> bool:
     """Verify the token is of the expected type (access/refresh)."""
     return token_data.get("type") == expected_type

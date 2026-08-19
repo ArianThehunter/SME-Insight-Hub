@@ -5,8 +5,7 @@ Auth domain — Business logic for authentication and user management.
 import hashlib
 import re
 import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Optional
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,17 +14,13 @@ from sqlalchemy.orm import selectinload
 from src.auth.models import AuditLog, Organization, RefreshToken, Role, User
 from src.auth.schemas import (
     LoginRequest,
-    OrganizationBriefResponse,
     RegisterRequest,
-    RoleResponse,
     TokenResponse,
-    UserResponse,
 )
 from src.common.enums import UserRole
 from src.common.exceptions import (
     AlreadyExistsError,
     AuthenticationError,
-    NotFoundError,
 )
 from src.common.security import (
     create_access_token,
@@ -110,7 +105,7 @@ class AuthService:
             raise AuthenticationError("Account has been deactivated")
 
         # Update last login
-        user.last_login = datetime.now(timezone.utc)
+        user.last_login = datetime.now(UTC)
 
         # Generate tokens
         tokens = await self._create_token_pair(user)
@@ -126,8 +121,8 @@ class AuthService:
             payload = decode_token(refresh_token_str)
             if not verify_token_type(payload, "refresh"):
                 raise AuthenticationError("Invalid token type")
-        except Exception:
-            raise AuthenticationError("Invalid or expired refresh token")
+        except Exception as exc:
+            raise AuthenticationError("Invalid or expired refresh token") from exc
 
         user_id = uuid.UUID(payload["sub"])
         token_hash = self._hash_token(refresh_token_str)
@@ -136,7 +131,7 @@ class AuthService:
         result = await self.db.execute(
             select(RefreshToken).where(
                 RefreshToken.token_hash == token_hash,
-                RefreshToken.is_revoked == False,
+                RefreshToken.is_revoked.is_(False),
             )
         )
         stored_token = result.scalar_one_or_none()
@@ -147,31 +142,31 @@ class AuthService:
         stored_token.is_revoked = True
 
         # Get user
-        result = await self.db.execute(
+        user_res = await self.db.execute(
             select(User)
             .options(selectinload(User.role), selectinload(User.organization))
             .where(User.id == user_id)
         )
-        user = result.scalar_one_or_none()
-        if not user or not user.is_active:
+        user_obj: User | None = user_res.scalar_one_or_none()
+        if not user_obj or not user_obj.is_active:
             raise AuthenticationError("User not found or inactive")
 
         # Generate new token pair
-        return await self._create_token_pair(user)
+        return await self._create_token_pair(user_obj)
 
     async def logout(self, user_id: uuid.UUID) -> None:
         """Revoke all refresh tokens for a user."""
         result = await self.db.execute(
             select(RefreshToken).where(
                 RefreshToken.user_id == user_id,
-                RefreshToken.is_revoked == False,
+                RefreshToken.is_revoked.is_(False),
             )
         )
         tokens = result.scalars().all()
         for token in tokens:
             token.is_revoked = True
 
-    async def get_user_by_id(self, user_id: uuid.UUID) -> Optional[User]:
+    async def get_user_by_id(self, user_id: uuid.UUID) -> User | None:
         """Get user by ID with role and org loaded."""
         result = await self.db.execute(
             select(User)
@@ -197,7 +192,7 @@ class AuthService:
         token_record = RefreshToken(
             token_hash=self._hash_token(refresh_token),
             user_id=user.id,
-            expires_at=datetime.now(timezone.utc) + timedelta(days=settings.JWT_REFRESH_TOKEN_EXPIRE_DAYS),
+            expires_at=datetime.now(UTC) + timedelta(days=settings.JWT_REFRESH_TOKEN_EXPIRE_DAYS),
         )
         self.db.add(token_record)
 

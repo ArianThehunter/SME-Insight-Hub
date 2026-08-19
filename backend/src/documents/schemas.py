@@ -4,9 +4,8 @@ Documents domain — Pydantic schemas for file upload and OCR processing.
 
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from src.common.enums import DocumentStatus, DocumentType
 from src.common.schemas import BaseSchema, IDSchema
 
 
@@ -25,12 +24,12 @@ class ExtractionResultResponse(BaseSchema):
     """Single extracted field from a document."""
     id: uuid.UUID
     field_name: str
-    field_value: Optional[str] = None
+    field_value: str | None = None
     field_type: str
     confidence: float
     is_validated: bool
-    validated_value: Optional[str] = None
-    page_number: Optional[int] = None
+    validated_value: str | None = None
+    page_number: int | None = None
 
 
 class DocumentDetailResponse(IDSchema):
@@ -41,12 +40,12 @@ class DocumentDetailResponse(IDSchema):
     mime_type: str
     document_type: str
     status: str
-    confidence_score: Optional[float] = None
+    confidence_score: float | None = None
     uploaded_by: uuid.UUID
-    processed_at: Optional[datetime] = None
-    error_message: Optional[str] = None
-    raw_text: Optional[str] = None
-    extraction_results: List[ExtractionResultResponse] = []
+    processed_at: datetime | None = None
+    error_message: str | None = None
+    raw_text: str | None = None
+    extraction_results: list[ExtractionResultResponse] = []
 
 
 class DocumentListResponse(BaseSchema):
@@ -57,9 +56,9 @@ class DocumentListResponse(BaseSchema):
     status: str
     file_size: int
     mime_type: str
-    confidence_score: Optional[float] = None
+    confidence_score: float | None = None
     created_at: datetime
-    processed_at: Optional[datetime] = None
+    processed_at: datetime | None = None
 
 
 class CSVImportResponse(BaseSchema):
@@ -67,7 +66,7 @@ class CSVImportResponse(BaseSchema):
     rows_processed: int
     rows_inserted: int
     rows_failed: int
-    errors: List[Dict[str, Any]] = []
+    errors: list[dict[str, Any]] = []
 
 
 class CSVImportError(BaseSchema):
@@ -75,4 +74,4 @@ class CSVImportError(BaseSchema):
     row: int
     field: str
     error: str
-    value: Optional[str] = None
+    value: str | None = None

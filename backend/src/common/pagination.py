@@ -2,8 +2,9 @@
 Pagination utilities for database queries.
 """
 
-from typing import Any, List, Optional, Sequence, Type, TypeVar
+from typing import TypeVar
 
+from pydantic import BaseModel
 from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,7 +17,7 @@ async def paginate(
     session: AsyncSession,
     query: Select,
     params: PaginationParams,
-    response_model: Optional[Type] = None,
+    response_model: type[BaseModel] | None = None,
 ) -> PaginatedResponse:
     """
     Apply pagination to a SQLAlchemy query and return a PaginatedResponse.

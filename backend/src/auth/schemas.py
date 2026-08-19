@@ -4,9 +4,8 @@ Auth domain — Pydantic schemas for authentication requests and responses.
 
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import EmailStr, Field, field_validator
 
 from src.common.schemas import BaseSchema, IDSchema
 
@@ -23,10 +22,10 @@ class RegisterRequest(BaseSchema):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
     full_name: str = Field(min_length=2, max_length=255)
-    full_name_bn: Optional[str] = None
+    full_name_bn: str | None = None
     organization_name: str = Field(min_length=2, max_length=255)
-    organization_name_bn: Optional[str] = None
-    phone: Optional[str] = None
+    organization_name_bn: str | None = None
+    phone: str | None = None
 
     @field_validator("password")
     @classmethod
@@ -62,12 +61,12 @@ class UserResponse(IDSchema):
     """User profile response."""
     email: str
     full_name: str
-    full_name_bn: Optional[str] = None
-    phone: Optional[str] = None
-    avatar_url: Optional[str] = None
+    full_name_bn: str | None = None
+    phone: str | None = None
+    avatar_url: str | None = None
     is_active: bool
     is_verified: bool
-    last_login: Optional[datetime] = None
+    last_login: datetime | None = None
     role: "RoleResponse"
     organization: "OrganizationBriefResponse"
 
@@ -77,8 +76,8 @@ class UserBriefResponse(BaseSchema):
     id: uuid.UUID
     email: str
     full_name: str
-    avatar_url: Optional[str] = None
-    role_name: Optional[str] = None
+    avatar_url: str | None = None
+    role_name: str | None = None
 
 
 # ── Role Schemas ──────────────────────────────────────────────────
@@ -86,26 +85,26 @@ class PermissionResponse(IDSchema):
     """Permission details."""
     resource: str
     action: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class RoleResponse(IDSchema):
     """Role with permissions."""
     name: str
     display_name: str
-    display_name_bn: Optional[str] = None
-    description: Optional[str] = None
+    display_name_bn: str | None = None
+    description: str | None = None
     is_system: bool
-    permissions: List[PermissionResponse] = []
+    permissions: list[PermissionResponse] = []
 
 
 class RoleCreateRequest(BaseSchema):
     """Create a custom role."""
     name: str = Field(min_length=2, max_length=100)
     display_name: str = Field(min_length=2, max_length=100)
-    display_name_bn: Optional[str] = None
-    description: Optional[str] = None
-    permission_ids: List[uuid.UUID] = []
+    display_name_bn: str | None = None
+    description: str | None = None
+    permission_ids: list[uuid.UUID] = []
 
 
 # ── Organization Schemas ──────────────────────────────────────────
@@ -113,54 +112,54 @@ class OrganizationBriefResponse(BaseSchema):
     """Brief org info included in user responses."""
     id: uuid.UUID
     name: str
-    name_bn: Optional[str] = None
+    name_bn: str | None = None
     slug: str
-    logo_url: Optional[str] = None
+    logo_url: str | None = None
     currency: str = "BDT"
 
 
 class OrganizationResponse(IDSchema):
     """Full organization details."""
     name: str
-    name_bn: Optional[str] = None
+    name_bn: str | None = None
     slug: str
-    description: Optional[str] = None
-    logo_url: Optional[str] = None
-    website: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    address: Optional[str] = None
-    address_bn: Optional[str] = None
+    description: str | None = None
+    logo_url: str | None = None
+    website: str | None = None
+    email: str | None = None
+    phone: str | None = None
+    address: str | None = None
+    address_bn: str | None = None
     locale: str
     currency: str
     timezone: str
     fiscal_year_start: int
-    settings: Optional[Dict] = None
-    branding: Optional[Dict] = None
+    settings: dict | None = None
+    branding: dict | None = None
     is_active: bool
 
 
 class OrganizationUpdateRequest(BaseSchema):
     """Update organization settings."""
-    name: Optional[str] = None
-    name_bn: Optional[str] = None
-    description: Optional[str] = None
-    logo_url: Optional[str] = None
-    website: Optional[str] = None
-    email: Optional[EmailStr] = None
-    phone: Optional[str] = None
-    address: Optional[str] = None
-    address_bn: Optional[str] = None
-    locale: Optional[str] = None
-    currency: Optional[str] = None
-    timezone: Optional[str] = None
-    fiscal_year_start: Optional[int] = Field(default=None, ge=1, le=12)
-    settings: Optional[Dict] = None
-    branding: Optional[Dict] = None
+    name: str | None = None
+    name_bn: str | None = None
+    description: str | None = None
+    logo_url: str | None = None
+    website: str | None = None
+    email: EmailStr | None = None
+    phone: str | None = None
+    address: str | None = None
+    address_bn: str | None = None
+    locale: str | None = None
+    currency: str | None = None
+    timezone: str | None = None
+    fiscal_year_start: int | None = Field(default=None, ge=1, le=12)
+    settings: dict | None = None
+    branding: dict | None = None
 
 
 # ── Auth Info ─────────────────────────────────────────────────────
 class AuthInfoResponse(BaseSchema):
     """Current authenticated user info."""
     user: UserResponse
-    permissions: List[str]
+    permissions: list[str]

@@ -5,7 +5,6 @@ All queries are org-scoped (multi-tenant via org_id).
 
 import uuid
 from decimal import Decimal
-from typing import List, Optional, Tuple
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,9 +13,11 @@ from sqlalchemy.orm import selectinload
 from src.common.exceptions import NotFoundError
 from src.sales.models import Customer, Order, OrderItem, Product, Supplier, Warehouse
 from src.sales.schemas import (
-    CustomerCreate, CustomerUpdate,
+    CustomerCreate,
+    CustomerUpdate,
     OrderCreate,
-    ProductCreate, ProductUpdate,
+    ProductCreate,
+    ProductUpdate,
     SupplierCreate,
     WarehouseCreate,
 )
@@ -33,12 +34,12 @@ class SalesService:
 
     async def list_customers(
         self,
-        search: Optional[str] = None,
-        segment: Optional[str] = None,
+        search: str | None = None,
+        segment: str | None = None,
         page: int = 1,
         page_size: int = 20,
-    ) -> Tuple[List[Customer], int]:
-        query = select(Customer).where(Customer.org_id == self.org_id, Customer.is_active == True)
+    ) -> tuple[list[Customer], int]:
+        query = select(Customer).where(Customer.org_id == self.org_id, Customer.is_active)
         if search:
             query = query.where(
                 Customer.name.ilike(f"%{search}%") |
@@ -51,7 +52,7 @@ class SalesService:
         total = await self.db.scalar(select(func.count()).select_from(query.subquery()))
         query = query.order_by(Customer.name).offset((page - 1) * page_size).limit(page_size)
         result = await self.db.execute(query)
-        return result.scalars().all(), total or 0
+        return list(result.scalars().all()), total or 0
 
     async def get_customer(self, customer_id: uuid.UUID) -> Customer:
         result = await self.db.execute(
@@ -84,13 +85,13 @@ class SalesService:
 
     async def list_products(
         self,
-        search: Optional[str] = None,
-        category: Optional[str] = None,
+        search: str | None = None,
+        category: str | None = None,
         low_stock_only: bool = False,
         page: int = 1,
         page_size: int = 20,
-    ) -> Tuple[List[Product], int]:
-        query = select(Product).where(Product.org_id == self.org_id, Product.is_active == True)
+    ) -> tuple[list[Product], int]:
+        query = select(Product).where(Product.org_id == self.org_id, Product.is_active)
         if search:
             query = query.where(Product.name.ilike(f"%{search}%") | Product.sku.ilike(f"%{search}%"))
         if category:
@@ -101,7 +102,7 @@ class SalesService:
         total = await self.db.scalar(select(func.count()).select_from(query.subquery()))
         query = query.order_by(Product.name).offset((page - 1) * page_size).limit(page_size)
         result = await self.db.execute(query)
-        return result.scalars().all(), total or 0
+        return list(result.scalars().all()), total or 0
 
     async def get_product(self, product_id: uuid.UUID) -> Product:
         result = await self.db.execute(
@@ -129,11 +130,11 @@ class SalesService:
 
     async def list_orders(
         self,
-        status: Optional[str] = None,
-        customer_id: Optional[uuid.UUID] = None,
+        status: str | None = None,
+        customer_id: uuid.UUID | None = None,
         page: int = 1,
         page_size: int = 20,
-    ) -> Tuple[List[Order], int]:
+    ) -> tuple[list[Order], int]:
         query = (
             select(Order)
             .where(Order.org_id == self.org_id)
@@ -147,7 +148,7 @@ class SalesService:
         total = await self.db.scalar(select(func.count()).select_from(query.subquery()))
         query = query.order_by(Order.order_date.desc()).offset((page - 1) * page_size).limit(page_size)
         result = await self.db.execute(query)
-        return result.scalars().all(), total or 0
+        return list(result.scalars().all()), total or 0
 
     async def get_order(self, order_id: uuid.UUID) -> Order:
         result = await self.db.execute(
@@ -165,7 +166,7 @@ class SalesService:
         count = await self.db.scalar(select(func.count(Order.id)).where(Order.org_id == self.org_id)) or 0
         order_number = f"ORD-{uuid.uuid4().hex[:4].upper()}-{str(count + 1).zfill(4)}"
 
-        subtotal = Decimal("0")
+        subtotal = Decimal(0)
         items_data = []
         for item in data.items:
             line_total = item.quantity * item.unit_price - item.discount
@@ -195,7 +196,7 @@ class SalesService:
                 quantity=item_data.quantity,
                 unit_price=item_data.unit_price,
                 discount=item_data.discount,
-                tax=Decimal("0"),
+                tax=Decimal(0),
                 total_price=line_total,
             )
             self.db.add(order_item)
@@ -205,12 +206,12 @@ class SalesService:
 
     # ── Suppliers ─────────────────────────────────────────────────
 
-    async def list_suppliers(self, page: int = 1, page_size: int = 20) -> Tuple[List[Supplier], int]:
-        query = select(Supplier).where(Supplier.org_id == self.org_id, Supplier.is_active == True)
+    async def list_suppliers(self, page: int = 1, page_size: int = 20) -> tuple[list[Supplier], int]:
+        query = select(Supplier).where(Supplier.org_id == self.org_id, Supplier.is_active)
         total = await self.db.scalar(select(func.count()).select_from(query.subquery()))
         query = query.order_by(Supplier.name).offset((page - 1) * page_size).limit(page_size)
         result = await self.db.execute(query)
-        return result.scalars().all(), total or 0
+        return list(result.scalars().all()), total or 0
 
     async def create_supplier(self, data: SupplierCreate) -> Supplier:
         supplier = Supplier(org_id=self.org_id, **data.model_dump())
@@ -220,11 +221,11 @@ class SalesService:
 
     # ── Warehouses ────────────────────────────────────────────────
 
-    async def list_warehouses(self) -> List[Warehouse]:
+    async def list_warehouses(self) -> list[Warehouse]:
         result = await self.db.execute(
-            select(Warehouse).where(Warehouse.org_id == self.org_id, Warehouse.is_active == True)
+            select(Warehouse).where(Warehouse.org_id == self.org_id, Warehouse.is_active)
         )
-        return result.scalars().all()
+        return list(result.scalars().all())
 
     async def create_warehouse(self, data: WarehouseCreate) -> Warehouse:
         warehouse = Warehouse(org_id=self.org_id, **data.model_dump())

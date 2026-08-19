@@ -2,10 +2,10 @@
 Shared enumerations used across the application.
 """
 
-from enum import Enum
+from enum import StrEnum
 
 
-class UserRole(str, Enum):
+class UserRole(StrEnum):
     """User roles with hierarchical permissions."""
     SUPER_ADMIN = "super_admin"
     ORG_OWNER = "org_owner"
@@ -16,7 +16,7 @@ class UserRole(str, Enum):
     VIEWER = "viewer"
 
 
-class DocumentStatus(str, Enum):
+class DocumentStatus(StrEnum):
     """Document processing pipeline statuses."""
     UPLOADED = "uploaded"
     QUEUED = "queued"
@@ -29,7 +29,7 @@ class DocumentStatus(str, Enum):
     REVIEW_NEEDED = "review_needed"
 
 
-class DocumentType(str, Enum):
+class DocumentType(StrEnum):
     """Types of documents that can be uploaded."""
     INVOICE = "invoice"
     RECEIPT = "receipt"
@@ -40,7 +40,7 @@ class DocumentType(str, Enum):
     OTHER = "other"
 
 
-class OrderStatus(str, Enum):
+class OrderStatus(StrEnum):
     """Sales order statuses."""
     DRAFT = "draft"
     PENDING = "pending"
@@ -52,7 +52,7 @@ class OrderStatus(str, Enum):
     REFUNDED = "refunded"
 
 
-class InvoiceStatus(str, Enum):
+class InvoiceStatus(StrEnum):
     """Invoice payment statuses."""
     DRAFT = "draft"
     SENT = "sent"
@@ -64,7 +64,7 @@ class InvoiceStatus(str, Enum):
     VOID = "void"
 
 
-class StockMovementType(str, Enum):
+class StockMovementType(StrEnum):
     """Types of inventory stock movements."""
     PURCHASE = "purchase"
     SALE = "sale"
@@ -74,7 +74,7 @@ class StockMovementType(str, Enum):
     WRITE_OFF = "write_off"
 
 
-class LeadStatus(str, Enum):
+class LeadStatus(StrEnum):
     """CRM lead pipeline statuses."""
     NEW = "new"
     CONTACTED = "contacted"
@@ -85,7 +85,7 @@ class LeadStatus(str, Enum):
     LOST = "lost"
 
 
-class CustomerSegment(str, Enum):
+class CustomerSegment(StrEnum):
     """Customer segmentation categories."""
     ENTERPRISE = "enterprise"
     MID_MARKET = "mid_market"
@@ -94,7 +94,7 @@ class CustomerSegment(str, Enum):
     INDIVIDUAL = "individual"
 
 
-class Currency(str, Enum):
+class Currency(StrEnum):
     """Supported currencies."""
     BDT = "BDT"
     USD = "USD"
@@ -102,7 +102,7 @@ class Currency(str, Enum):
     GBP = "GBP"
 
 
-class ReportType(str, Enum):
+class ReportType(StrEnum):
     """Report generation types."""
     MONTHLY = "monthly"
     QUARTERLY = "quarterly"
@@ -110,14 +110,14 @@ class ReportType(str, Enum):
     CUSTOM = "custom"
 
 
-class ReportFormat(str, Enum):
+class ReportFormat(StrEnum):
     """Report export formats."""
     PDF = "pdf"
     CSV = "csv"
     EXCEL = "excel"
 
 
-class AuditAction(str, Enum):
+class AuditAction(StrEnum):
     """Audit trail action types."""
     CREATE = "create"
     READ = "read"

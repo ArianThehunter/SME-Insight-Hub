@@ -5,74 +5,72 @@ Finance domain — Schemas for expenses, invoices, and cash flow.
 import uuid
 from datetime import date
 from decimal import Decimal
-from typing import List, Optional
 
 from src.common.enums import InvoiceStatus
 from src.common.schemas import BaseSchema, IDSchema
-
 
 # ── Expense Schemas ────────────────────────────────────────────────
 
 class ExpenseCreate(BaseSchema):
     category: str
-    subcategory: Optional[str] = None
+    subcategory: str | None = None
     description: str
-    description_bn: Optional[str] = None
+    description_bn: str | None = None
     amount: Decimal
     expense_date: date
-    vendor: Optional[str] = None
-    vendor_bn: Optional[str] = None
-    payment_method: Optional[str] = None
-    department: Optional[str] = None
+    vendor: str | None = None
+    vendor_bn: str | None = None
+    payment_method: str | None = None
+    department: str | None = None
     is_recurring: bool = False
 
 
 class ExpenseUpdate(BaseSchema):
-    category: Optional[str] = None
-    description: Optional[str] = None
-    amount: Optional[Decimal] = None
-    expense_date: Optional[date] = None
-    vendor: Optional[str] = None
-    payment_method: Optional[str] = None
+    category: str | None = None
+    description: str | None = None
+    amount: Decimal | None = None
+    expense_date: date | None = None
+    vendor: str | None = None
+    payment_method: str | None = None
 
 
 class ExpenseResponse(IDSchema):
     category: str
-    subcategory: Optional[str] = None
+    subcategory: str | None = None
     description: str
-    description_bn: Optional[str] = None
+    description_bn: str | None = None
     amount: Decimal
     currency: str
     expense_date: date
-    vendor: Optional[str] = None
-    payment_method: Optional[str] = None
-    department: Optional[str] = None
+    vendor: str | None = None
+    payment_method: str | None = None
+    department: str | None = None
     is_recurring: bool
 
 
 # ── Invoice Schemas ────────────────────────────────────────────────
 
 class InvoiceCreate(BaseSchema):
-    customer_id: Optional[uuid.UUID] = None
+    customer_id: uuid.UUID | None = None
     issue_date: date
     due_date: date
     subtotal: Decimal
-    tax_amount: Decimal = Decimal("0")
-    discount_amount: Decimal = Decimal("0")
-    vendor_name: Optional[str] = None
-    notes: Optional[str] = None
+    tax_amount: Decimal = Decimal(0)
+    discount_amount: Decimal = Decimal(0)
+    vendor_name: str | None = None
+    notes: str | None = None
 
 
 class InvoiceUpdate(BaseSchema):
-    status: Optional[InvoiceStatus] = None
-    amount_paid: Optional[Decimal] = None
-    paid_date: Optional[date] = None
-    notes: Optional[str] = None
+    status: InvoiceStatus | None = None
+    amount_paid: Decimal | None = None
+    paid_date: date | None = None
+    notes: str | None = None
 
 
 class InvoiceResponse(IDSchema):
     invoice_number: str
-    customer_id: Optional[uuid.UUID] = None
+    customer_id: uuid.UUID | None = None
     status: str
     subtotal: Decimal
     tax_amount: Decimal
@@ -82,8 +80,8 @@ class InvoiceResponse(IDSchema):
     currency: str
     issue_date: date
     due_date: date
-    paid_date: Optional[date] = None
-    vendor_name: Optional[str] = None
+    paid_date: date | None = None
+    vendor_name: str | None = None
 
 
 # ── Summary Schemas ────────────────────────────────────────────────

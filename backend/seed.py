@@ -16,26 +16,31 @@ Creates:
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from datetime import date, datetime, timezone, timedelta
-from decimal import Decimal
 import random
+from datetime import date, timedelta
+from decimal import Decimal
 
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database import async_session_factory, engine, Base
-from src.auth.models import Organization, Role, User, Permission
-from src.common.security import hash_password
+from src.auth.models import Organization, Role, User
 from src.common.enums import UserRole
+from src.common.security import hash_password
+from src.database import Base, async_session_factory, engine
 from src.sales.models import (
-    Customer, Product, Order, OrderItem, Supplier, Warehouse, Expense, Invoice
+    Customer,
+    Expense,
+    Invoice,
+    Order,
+    OrderItem,
+    Product,
+    Supplier,
+    Warehouse,
 )
-
 
 DEMO_EMAIL = "admin@acmecorp.com"
 DEMO_PASSWORD = "Demo@1234"
@@ -132,7 +137,7 @@ async def seed(db: AsyncSession):
         )
         db.add(w)
     await db.flush()
-    print(f"  ✓ 2 warehouses")
+    print("  ✓ 2 warehouses")
 
     # ── Customers ─────────────────────────────────────────────────
     customers_data = [
@@ -197,7 +202,7 @@ async def seed(db: AsyncSession):
             org_id=org.id, name=name, name_bn=name_bn, sku=sku,
             category=category, unit=unit,
             price=Decimal(str(price)), cost=Decimal(str(cost)),
-            tax_rate=Decimal("15"),  # Standard VAT in Bangladesh
+            tax_rate=Decimal(15),  # Standard VAT in Bangladesh
             stock_quantity=random.randint(10, 500),
             reorder_level=random.randint(5, 50),
             supplier_id=random.choice(suppliers).id,
@@ -232,7 +237,7 @@ async def seed(db: AsyncSession):
         db.add(order)
         await db.flush()
 
-        subtotal = Decimal("0")
+        subtotal = Decimal(0)
         for product in chosen_products:
             qty = random.randint(1, 20)
             line_total = qty * product.price
@@ -243,8 +248,8 @@ async def seed(db: AsyncSession):
                 product_id=product.id,
                 quantity=qty,
                 unit_price=product.price,
-                discount=Decimal("0"),
-                tax=Decimal("0"),
+                discount=Decimal(0),
+                tax=Decimal(0),
                 total_price=line_total,
             )
             db.add(item)
@@ -286,7 +291,7 @@ async def seed(db: AsyncSession):
         )
         db.add(e)
     await db.flush()
-    print(f"  ✓ 15 expenses")
+    print("  ✓ 15 expenses")
 
     # ── Invoices ──────────────────────────────────────────────────
     invoice_statuses = ["paid", "paid", "sent", "partially_paid", "overdue", "draft"]
@@ -295,7 +300,7 @@ async def seed(db: AsyncSession):
         subtotal = Decimal(str(random.randint(50000, 500000)))
         tax = subtotal * Decimal("0.15")
         total = subtotal + tax
-        paid = total if random.random() > 0.4 else Decimal("0")
+        paid = total if random.random() > 0.4 else Decimal(0)
         issue_date = date(2026, random.randint(5, 8), random.randint(1, 20))
         inv = Invoice(
             org_id=org.id,
@@ -312,7 +317,7 @@ async def seed(db: AsyncSession):
         )
         db.add(inv)
     await db.flush()
-    print(f"  ✓ 10 invoices")
+    print("  ✓ 10 invoices")
 
     print("\n🎉 Seed data complete!")
     print(f"   Login: {DEMO_EMAIL}")
@@ -327,6 +332,7 @@ async def main():
         try:
             # Check if already seeded
             from sqlalchemy import select
+
             from src.auth.models import User as UserModel
             result = await db.execute(select(UserModel).where(UserModel.email == DEMO_EMAIL))
             existing = result.scalar_one_or_none()

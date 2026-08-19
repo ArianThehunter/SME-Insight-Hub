@@ -4,7 +4,7 @@ Shared Pydantic schemas for pagination, responses, and common patterns.
 
 import uuid
 from datetime import datetime
-from typing import Any, Generic, List, Optional, TypeVar
+from typing import TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -40,19 +40,19 @@ class PaginationParams(BaseModel):
 
     page: int = Field(default=1, ge=1, description="Page number")
     page_size: int = Field(default=20, ge=1, le=100, description="Items per page")
-    sort_by: Optional[str] = Field(default=None, description="Field to sort by")
-    sort_order: Optional[str] = Field(default="desc", pattern="^(asc|desc)$")
-    search: Optional[str] = Field(default=None, description="Search query")
+    sort_by: str | None = Field(default=None, description="Field to sort by")
+    sort_order: str | None = Field(default="desc", pattern="^(asc|desc)$")
+    search: str | None = Field(default=None, description="Search query")
 
     @property
     def offset(self) -> int:
         return (self.page - 1) * self.page_size
 
 
-class PaginatedResponse(BaseModel, Generic[T]):
+class PaginatedResponse[T](BaseModel):
     """Standard paginated response wrapper."""
 
-    items: List[T]
+    items: list[T]
     total: int
     page: int
     page_size: int
@@ -62,7 +62,7 @@ class PaginatedResponse(BaseModel, Generic[T]):
 
     @classmethod
     def create(
-        cls, items: List[T], total: int, page: int, page_size: int
+        cls, items: list[T], total: int, page: int, page_size: int
     ) -> "PaginatedResponse[T]":
         total_pages = max(1, (total + page_size - 1) // page_size)
         return cls(
@@ -77,12 +77,12 @@ class PaginatedResponse(BaseModel, Generic[T]):
 
 
 # ── API Response Wrappers ────────────────────────────────────────
-class SuccessResponse(BaseModel, Generic[T]):
+class SuccessResponse[T](BaseModel):
     """Standard success response wrapper."""
 
     success: bool = True
     message: str = "Success"
-    data: Optional[T] = None
+    data: T | None = None
 
 
 class ErrorResponse(BaseModel):
@@ -91,19 +91,19 @@ class ErrorResponse(BaseModel):
     success: bool = False
     message: str
     detail: dict = {}
-    path: Optional[str] = None
+    path: str | None = None
 
 
 # ── Filter Schema ────────────────────────────────────────────────
 class DateRangeFilter(BaseModel):
     """Date range filter parameters."""
 
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
+    start_date: datetime | None = None
+    end_date: datetime | None = None
 
 
 class AmountRangeFilter(BaseModel):
     """Amount range filter parameters."""
 
-    min_amount: Optional[float] = None
-    max_amount: Optional[float] = None
+    min_amount: float | None = None
+    max_amount: float | None = None
