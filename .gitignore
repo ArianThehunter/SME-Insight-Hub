@@ -150,3 +150,15 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Linked packages for IDE analysis
+backend/fastapi/
+backend/sqlalchemy/
+backend/jwt/
+backend/pydantic/
+backend/pydantic_settings/
+backend/sentry_sdk/
+backend/slowapi/
+backend/PyPDF2/
+backend/pydantic_core/
+.venv
